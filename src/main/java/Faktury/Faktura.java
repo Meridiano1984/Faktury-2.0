@@ -1,5 +1,7 @@
 package Faktury;
 
+import Faktury.FakturyVat.FakturaVAT;
+import Faktury.FakturyVat.FakturaVATdataBaseOperator;
 import Kontrachent.Firma;
 import Kontrachent.Kontrachent;
 import Kontrachent.MojaFirma;
@@ -60,7 +62,6 @@ public abstract class Faktura {
         nrFaktury = (getLiczbaFaktur() + "/" + dzisiejszaData.getMonthValue() + "/" + dzisiejszaData.getYear() );
         return nrFaktury;
     }
-
 
     @Override
     public String toString(){

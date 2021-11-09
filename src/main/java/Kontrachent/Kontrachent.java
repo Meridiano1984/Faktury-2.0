@@ -14,7 +14,11 @@ public abstract class Kontrachent {
         this.adres = adres;
     }
 
-    public  void wyswietlenieKontrachenta(Kontrachent kontrachent){
+    public void wyswietlenieKontrachenta(Kontrachent kontrachent){
         System.out.println("wyswietolono kontrachenta");
     }
+
+    //TODO ZMIENIC KONTRACHENTA W BAZIE DANYCH Z KRAJOWYCH NA OSOBE FIZYCZNA FIRME ITDI DAC TUTAJ FUNKCJE GETBYINDEX
+
+
 }

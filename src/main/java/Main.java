@@ -1,3 +1,4 @@
+import ApplicationInterface.ComendUserInterface;
 import DataBase.DatabaseInitialization;
 
 import java.time.LocalDate;
@@ -15,11 +16,14 @@ public class Main {
         //TODO CZY OBIEKTY POWINNY BYC PRZECHOWYWANE W PAMIECI UZYTKOWEJ RPGRAU CZY W DB JEST OK?
 
 
+        ComendUserInterface comendUserInterface = new ComendUserInterface();
+        comendUserInterface.dzialnieMenu();
 
-        DatabaseInitialization databaseInitialization = new DatabaseInitialization();
-//        databaseInitialization.usuwanieTabelv2();
-        databaseInitialization.tworzenieBazydanychV2();
-        databaseInitialization.dodaniePrzykładowychdanych();
+
+//        DatabaseInitialization databaseInitialization = new DatabaseInitialization();
+////        databaseInitialization.usuwanieTabelv2();
+//        databaseInitialization.tworzenieBazydanychV2();
+//        databaseInitialization.dodaniePrzykładowychdanych();
 
 //        DatabaseInitialization databaseInitialization = new DatabaseInitialization();
 //
