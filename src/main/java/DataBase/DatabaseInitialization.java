@@ -63,7 +63,7 @@ public class DatabaseInitialization {
                      CREATE TABLE towary ( 
                      produkt_id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
                      produkt_name VARCHAR(40),
-                     jedostka_miary VARCHAR(3),
+                     jedostka_miary VARCHAR(5),
                      cena_zakupu_netto  DOUBLE(9,2),
                      cena_zakupu_brutto  DOUBLE(9,2),
                      stawka_VAT_zakupu INT(2),

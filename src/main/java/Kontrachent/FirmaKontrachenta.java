@@ -42,6 +42,18 @@ public class FirmaKontrachenta extends Firma {
         return firmaKontrachenta;
     }
 
+    public static void wyswietlanieFirmyKontrachenta(){
+        //TODO JAK PISAC METODY WYSWIETLAJACE W JAKI SPOSOB ZEBY DZIDZICZYC I NIE BYŁY STSTYCZNE
+        FirmaKontrachenta.wyswietlanieFirmyKontrachenta();
+    }
+
+    protected void dodanieKontrachentaDoBazydanych(){
+        System.out.println("INSERT INTO kontrachenci (typ_kontrachent,kontrachent_name,nip,adres_kraj,adres_miasto,adres_ulica,adres_nr_budynku) " +
+                "VALUES('firma','"+this.nazwaFirmy+"','"+this.NIP+"','"+this.adres.getKraj()+"','"+this.adres.getMiasto()+"','"+this.adres.getUlica()+"','"+this.adres.getNrBudynku()+"');");
+        QueryExecutor.executeQuery("INSERT INTO kontrachenci (typ_kontrachent,kontrachent_name,nip,adres_kraj,adres_miasto,adres_ulica,adres_nr_budynku) " +
+                "VALUES('firma','"+this.nazwaFirmy+"','"+this.NIP+"','"+this.adres.getKraj()+"','"+this.adres.getMiasto()+"','"+this.adres.getUlica()+"','"+this.adres.getNrBudynku()+"');");
+    }
+
     @Override
     public String toString(){
         return "Nazwa firmy: " + this.nazwaFirmy + " NIP: " + this.NIP + " " + this.adres.toString();

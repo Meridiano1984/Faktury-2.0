@@ -1,6 +1,13 @@
 package Towary;
+import DataBase.QueryExecutor;
 import DataStructure.JednostkiMiary;
 import Podatki.StawkaVat;
+
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.InputMismatchException;
+import java.util.Scanner;
 
 public class Towar {
 
@@ -24,6 +31,7 @@ public class Towar {
         this.stawkaVatSprzedazy = stawkaVatSprzedazy;
         this.cenaSprzedazyBrutto = StawkaVat.obliczanieCenyBrutto(cenaSprzedazyNetto, stawkaVatSprzedazy);
     }
+    public Towar(){}
 
     public String getNazwa() {
         return nazwa;
@@ -87,6 +95,99 @@ public class Towar {
 
     public void setStawkaVatSprzedazy(StawkaVat stawkaVatSprzedazy) {
         this.stawkaVatSprzedazy = stawkaVatSprzedazy;
+    }
+
+    public static void wyswietlanieTowaru(){
+        int licznik=0;
+        ArrayList<Towar> listaTowaru =Towar.getZBazydanych();
+
+        for(Towar towar: listaTowaru){
+            licznik++;
+            System.out.println(licznik + "." + towar);
+        }
+    }
+
+    public static void dodawanieNowegoTowaru(){
+
+        Scanner scanner;
+        boolean warnuek = true;
+        do {
+            try {
+                scanner = new Scanner(System.in);                                                   //TUTAJ TRZEBA WYCZYSCIC SKANER BO PRZY WPISANIU ZLYCH ARGUMENTOW ZLE WCZYTUJE
+                System.out.println("...///DODANIE NOWEGO TOWARU");
+                System.out.print("nazwa towaru: ");
+                String nazwaTowaru = scanner.nextLine();
+                System.out.println("dostepne jednostki(" + JednostkiMiary.dostepneJednostki() + ")");
+                System.out.print("jednostka: ");
+                String jednostkaMiary = scanner.next();
+                System.out.print("cena zakupu netto: ");
+                Double cenaZakupuNetto = scanner.nextDouble();
+                System.out.print("Stawka VAT zakupu: ");
+                int stawkaZakupuVat = scanner.nextInt();
+                System.out.print("cena sprzedezy netto:");
+                Double cenaSprzedazyNetto = scanner.nextDouble();
+                System.out.print("stawka VAT sprzedazy: ");
+                int stawkaSoprzedazyVat = scanner.nextInt();
+                warnuek=false;
+
+                Towar towar = new Towar(nazwaTowaru,JednostkiMiary.sprawdzanieJednostekMiary(jednostkaMiary),cenaZakupuNetto,new StawkaVat(stawkaZakupuVat),cenaSprzedazyNetto,new StawkaVat(stawkaSoprzedazyVat));
+                towar.dodanieTowaruDoBazydanych();
+                System.out.println("\nNOWY TOWAR\n");
+                System.out.println(towar.toString());
+            } catch (InputMismatchException e) {
+//                e.printStackTrace();
+                System.out.println("\n\nZLE DANE SPROBUJ PONOWNIE\n\n");
+            }
+        }while (warnuek);
+
+
+    }
+
+    private void dodanieTowaruDoBazydanych(){
+        System.out.println("INSERT INTO towary (produkt_name,jednostka_miary,cena_zakupu_netto,cena_zakupu_brutto,stawka_VAT_zakupu,cena_sprzedazy_netto,cena_sprzedazy_brutto,stawka_VAT_sprzedazy)" +
+                " VALUES('"+this.nazwa+"','"+this.jednostkiMiary.getJednostkaMiary()+"',"+this.cenaZakupuNetto+","+this.cenaZakupuBrutto+",'"+this.stawkaVatZakupu.getStawkaVAT()+"',"+this.cenaSprzedazyNetto+","+this.cenaSprzedazyBrutto+",'"+this.stawkaVatSprzedazy.getStawkaVAT()+"');");
+        QueryExecutor.executeQuery("INSERT INTO towary (produkt_name,jedostka_miary,cena_zakupu_netto,cena_zakupu_brutto,stawka_VAT_zakupu,cena_sprzedazy_netto,cena_sprzedazy_brutto,stawka_VAT_sprzedazy)" +
+                " VALUES('"+this.nazwa+"','"+this.jednostkiMiary.getJednostkaMiary()+"',"+this.cenaZakupuNetto+","+this.cenaZakupuBrutto+",'"+this.stawkaVatZakupu.getStawkaVAT()+"',"+this.cenaSprzedazyNetto+","+this.cenaSprzedazyBrutto+",'"+this.stawkaVatSprzedazy.getStawkaVAT()+"');");
+    }
+
+    public static ArrayList<Towar> getZBazydanych(){
+        //TODO
+        //TODO ZROB JAKAS KLASE ABSTRKACYJNA ZEBY TA FUNKCJA MOGLA BYC WYKORZYSTANA ROWNIEZ DLA TOWARU NA FAKTURZE
+        //TODO
+        ResultSet resultProducts = QueryExecutor.executeSelect("SELECT * FROM towary;");
+
+        ArrayList<Towar> listaTowaru = new ArrayList<>();
+        Towar towar;
+        String nazwaProduktu;
+        JednostkiMiary jednostkiMiary;
+        String jednostkiMiaryString;
+        double cenaZakupuNetto;
+        StawkaVat stawkaVatZakupu;
+        int stawkaVatZakupuInt;
+        double cenaSprzedazyNetto;
+        StawkaVat stawkaVatSprzedazy;
+        int stawkaVatSprzedazyInt;
+
+        try {
+           while (resultProducts.next()) {
+                nazwaProduktu = resultProducts.getString("produkt_name");
+                jednostkiMiaryString = resultProducts.getString("jedostka_miary");
+                jednostkiMiary = JednostkiMiary.sprawdzanieJednostekMiary(jednostkiMiaryString);
+                cenaZakupuNetto = resultProducts.getDouble("cena_zakupu_netto");
+
+                stawkaVatZakupuInt = resultProducts.getInt("stawka_VAT_zakupu");
+                stawkaVatZakupu = new StawkaVat(stawkaVatZakupuInt);
+                stawkaVatSprzedazyInt = resultProducts.getInt("stawka_VAT_sprzedazy");
+                stawkaVatSprzedazy = new StawkaVat(stawkaVatSprzedazyInt);
+                cenaSprzedazyNetto = resultProducts.getDouble("cena_sprzedazy_netto");
+
+                towar = new Towar(nazwaProduktu,jednostkiMiary,cenaZakupuNetto,stawkaVatZakupu,cenaSprzedazyNetto,stawkaVatSprzedazy);
+                listaTowaru.add(towar);
+            }
+        }catch (SQLException e){
+            e.printStackTrace();
+        }
+        return listaTowaru;
     }
 
     @Override

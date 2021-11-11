@@ -50,4 +50,8 @@ public enum JednostkiMiary {
         };
 
     }
+
+    public static String dostepneJednostki(){
+        return "szt, kg, T, l, ml, m, cm, m2, m3";
+    }
 }

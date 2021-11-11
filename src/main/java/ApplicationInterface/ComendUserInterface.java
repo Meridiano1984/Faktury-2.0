@@ -2,6 +2,9 @@ package ApplicationInterface;
 
 import Faktury.FakturyVat.FakturaVAT;
 import Kontrachent.Firma;
+import Kontrachent.FirmaKontrachenta;
+import Kontrachent.Kontrachent;
+import Towary.Towar;
 
 import java.util.Scanner;
 
@@ -33,6 +36,18 @@ public class ComendUserInterface {
             switch (liczbaSterujaca){
                 case 1:
                     FakturaVAT.wyswietlanieZDB();
+                    break;
+                case 2:
+                    Firma.wyswietlenieKontrachenta();
+                    break;
+                case 3:
+                    Towar.wyswietlanieTowaru();
+                    break;
+                case 5:
+                    Firma.dodanieNowegoKontrachenta();
+                    break;
+                case 6:
+                    Towar.dodawanieNowegoTowaru();
                     break;
                 case 8:
                     System.exit(0);
