@@ -1,5 +1,7 @@
 package Towary;
 
+import java.util.ArrayList;
+
 public class TowarNaFakturze {
 
     private Towar towar;
@@ -40,6 +42,7 @@ public class TowarNaFakturze {
     private double obliczanieWartosciVAT(Towar towar, int ilosc){
         return towar.getStawkaVatSprzedazy().getStawkaVAT()*ilosc;
     }
+
 
     private double obliczanieWartosciBrutto(Towar towar, int ilosc){
         return towar.getCenaSprzedazyBrutto()*ilosc;

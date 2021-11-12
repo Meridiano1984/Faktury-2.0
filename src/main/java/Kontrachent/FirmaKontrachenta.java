@@ -48,8 +48,6 @@ public class FirmaKontrachenta extends Firma {
     }
 
     protected void dodanieKontrachentaDoBazydanych(){
-        System.out.println("INSERT INTO kontrachenci (typ_kontrachent,kontrachent_name,nip,adres_kraj,adres_miasto,adres_ulica,adres_nr_budynku) " +
-                "VALUES('firma','"+this.nazwaFirmy+"','"+this.NIP+"','"+this.adres.getKraj()+"','"+this.adres.getMiasto()+"','"+this.adres.getUlica()+"','"+this.adres.getNrBudynku()+"');");
         QueryExecutor.executeQuery("INSERT INTO kontrachenci (typ_kontrachent,kontrachent_name,nip,adres_kraj,adres_miasto,adres_ulica,adres_nr_budynku) " +
                 "VALUES('firma','"+this.nazwaFirmy+"','"+this.NIP+"','"+this.adres.getKraj()+"','"+this.adres.getMiasto()+"','"+this.adres.getUlica()+"','"+this.adres.getNrBudynku()+"');");
     }

@@ -41,6 +41,8 @@ public abstract class Firma extends Kontrachent{
     }
 
 
+
+
     public static void wyswietlenieKontrachenta(){
 
         ResultSet resultSet = QueryExecutor.executeSelect("SELECT * FROM kontrachenci;");
@@ -68,10 +70,11 @@ public abstract class Firma extends Kontrachent{
 
     }
 
-    public static void dodanieNowegoKontrachenta(){
+    public static Kontrachent dodanieNowegoKontrachenta(){
 
         Scanner scanner;
         boolean warnuek = true;
+        FirmaKontrachenta kontrachent = null;
         do {
             try {
                 scanner = new Scanner(System.in);                                                   //TUTAJ TRZEBA WYCZYSCIC SKANER BO PRZY WPISANIU ZLYCH ARGUMENTOW ZLE WCZYTUJE
@@ -90,17 +93,34 @@ public abstract class Firma extends Kontrachent{
                 String ulica = scanner.nextLine();
                 System.out.print("budynek: ");
                 String budynek = scanner.nextLine();
+
+
+                kontrachent = new FirmaKontrachenta(nazwaKontrachenta,new Adres(kraj,miasto,ulica,budynek),NIP);
+                kontrachent.dodanieKontrachentaDoBazydanych();
                 warnuek=false;
 
-                FirmaKontrachenta kontrachent = new FirmaKontrachenta(nazwaKontrachenta,new Adres(kraj,miasto,ulica,budynek),NIP);
-                kontrachent.dodanieKontrachentaDoBazydanych();
-
             } catch (InputMismatchException e) {
-//                e.printStackTrace();
                 System.out.println("\n\nZLE DANE SPROBUJ PONOWNIE\n\n");
+            } catch (IllegalArgumentException e){
+                System.out.println("\n\nPODANY NIP JEST NIEPRAWIDŁOWY\n\n");
             }
         }while (warnuek);
 
+        return kontrachent;
+    }
+
+    public int getIndexFromDataBase(Firma kontrachent){
+        int index=0;
+
+        ResultSet resultSet = QueryExecutor.executeSelect("SELECT * FROM kontrachenci WHERE kontrachent_name='"+kontrachent.getNazwaFirmy()+"';");
+        try {
+            resultSet.next();
+            index = resultSet.getInt("kontrachent_id");
+        }catch (SQLException e){
+            e.printStackTrace();
+        }
+
+        return index;
     }
 
 

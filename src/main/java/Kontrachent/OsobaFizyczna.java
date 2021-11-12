@@ -15,6 +15,10 @@ public final class OsobaFizyczna extends Kontrachent{
         super.adres = adres;
     }
 
+    public  int getIndexFromDataBase(Firma kontrachent){
+        return 0;
+    }
+
 
     @Override
     public String toString(){

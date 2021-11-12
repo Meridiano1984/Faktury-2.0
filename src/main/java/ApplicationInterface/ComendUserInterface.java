@@ -1,5 +1,6 @@
 package ApplicationInterface;
 
+import Faktury.Faktura;
 import Faktury.FakturyVat.FakturaVAT;
 import Kontrachent.Firma;
 import Kontrachent.FirmaKontrachenta;
@@ -42,6 +43,9 @@ public class ComendUserInterface {
                     break;
                 case 3:
                     Towar.wyswietlanieTowaru();
+                    break;
+                case 4:
+                    Faktura.tworzenieNowejFaktury();
                     break;
                 case 5:
                     Firma.dodanieNowegoKontrachenta();

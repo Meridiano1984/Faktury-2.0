@@ -1,14 +1,21 @@
 package Faktury;
 
+import DataBase.QueryExecutor;
 import Faktury.FakturyVat.FakturaVAT;
 import Faktury.FakturyVat.FakturaVATdataBaseOperator;
 import Kontrachent.Firma;
 import Kontrachent.Kontrachent;
 import Kontrachent.MojaFirma;
+import Towary.Towar;
 import Towary.TowarNaFakturze;
 
+import java.sql.Date;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.InputMismatchException;
+import java.util.Scanner;
 
 public abstract class Faktura {
 
@@ -34,6 +41,84 @@ public abstract class Faktura {
         this.wartoscSprzedazyNetto = this.obliczanieWartosciSprzedazyNetto(listaTowarow);
         this.wartoscSprzedazyBrutto = this.obliczanieWartosciSprzedazyBrutto(listaTowarow);
         liczbaFaktur++;
+    }
+
+    public static void setLiczbaFaktur(int liczbaFaktur) {
+        Faktura.liczbaFaktur = liczbaFaktur;
+    }
+
+    public String getNumerFaktury() {
+        return numerFaktury;
+    }
+
+    public void setNumerFaktury(String numerFaktury) {
+        this.numerFaktury = numerFaktury;
+    }
+
+    public LocalDate getDataWystawienia() {
+        return dataWystawienia;
+    }
+
+    public void setDataWystawienia(LocalDate dataWystawienia) {
+        this.dataWystawienia = dataWystawienia;
+    }
+
+    public Kontrachent getMojaFirma() {
+        return mojaFirma;
+    }
+
+    public void setMojaFirma(Firma mojaFirma) {
+        this.mojaFirma = mojaFirma;
+    }
+
+    public Kontrachent getKontrachent() {
+        return kontrachent;
+    }
+
+    public void setKontrachent(Kontrachent kontrachent) {
+        this.kontrachent = kontrachent;
+    }
+
+    public ArrayList<TowarNaFakturze> getListaTowarow() {
+        return listaTowarow;
+    }
+
+    public void setListaTowarow(ArrayList<TowarNaFakturze> listaTowarow) {
+        this.listaTowarow = listaTowarow;
+    }
+
+    public double getWartoscSprzedazyNetto() {
+        return wartoscSprzedazyNetto;
+    }
+
+    public void setWartoscSprzedazyNetto(double wartoscSprzedazyNetto) {
+        this.wartoscSprzedazyNetto = wartoscSprzedazyNetto;
+    }
+
+    public double getWartoscSprzedazyBrutto() {
+        return wartoscSprzedazyBrutto;
+    }
+
+    public void setWartoscSprzedazyBrutto(double wartoscSprzedazyBrutto) {
+        this.wartoscSprzedazyBrutto = wartoscSprzedazyBrutto;
+    }
+
+    public String getUwaga() {
+        return uwaga;
+    }
+
+//    public void setUwaga(String uwaga) {
+//        this.uwaga = uwaga;
+//    }
+
+    public void setUwaga() {
+        Scanner scanner = new Scanner(System.in);
+        String nowaUwaga;
+        System.out.println("\n\bTREŚĆ UWAGI(256 ZNAKOW):");
+//        nowaUwaga = scanner.next(".{256}");
+        nowaUwaga = scanner.next();
+
+        this.uwaga = nowaUwaga;
     }
 
     public static int getLiczbaFaktur() {
@@ -63,6 +148,169 @@ public abstract class Faktura {
         return nrFaktury;
     }
 
+    public static void tworzenieNowejFaktury(){
+
+        boolean warunek = true;
+        Scanner scanner = new Scanner(System.in);
+        Kontrachent kontrachent = null;
+        ArrayList<TowarNaFakturze> listaTowarow=null;
+        LocalDate localDate;
+        int wybor;
+
+        do {
+            try {
+
+                System.out.println(".../// TWORZENIE NOWEJ FAKTURY");
+                System.out.println("""
+                        1 -> Dodaj nowego kontrachenta
+                        2 -> Wybierz kontrachenta z listy Kontrachentow
+                        """);
+                wybor = scanner.nextInt();
+
+                switch (wybor){
+                    case 1:
+                         kontrachent = Firma.dodanieNowegoKontrachenta();
+                        break;
+                    case 2:
+                        Firma.wyswietlenieKontrachenta();
+                        kontrachent =Kontrachent.dodanieKontrachentaDoFaktury();
+                        break;
+                }
+                localDate =Faktura.dodanieDatyDoFaktury();
+                listaTowarow = Faktura.dodanieTowaruDoFaktury();
+                Faktura faktura = new FakturaVAT(localDate,MojaFirma.getInstance(),kontrachent,listaTowarow);
+                faktura.setUwaga();
+                faktura.dodanieFakturyDoBazydanych();
+
+
+                warunek = false;
+            }catch (InputMismatchException e){
+                System.out.println("PODALES ZLE DANE");
+            }
+        }while ((warunek));
+    }
+
+    private static ArrayList<TowarNaFakturze> dodanieTowaruDoFaktury(){
+
+        ArrayList<TowarNaFakturze> towaryNaFakturze = new ArrayList<>();
+        Scanner scanner;
+        Towar towar = null;
+        int wybor;
+        boolean warunek = true;
+        String menu = """
+                1 -> dodaj towar
+                2 -> wyjdz
+                Twój wybór:
+                """;
+
+        do{
+            try {
+                scanner = new Scanner(System.in);
+                System.out.print(menu);
+                wybor = scanner.nextInt();
+
+                switch (wybor) {
+                    case 1:
+                        Towar.wyswietlanieTowaru();
+                        System.out.print("Wybierz nr towaru do dodania: ");
+                        int nrTowaru = scanner.nextInt();
+                        towar = Towar.getByIndexFromDataBase(nrTowaru);
+                        System.out.print("PODAJ ILOSC: ");
+                        int ilosc = scanner.nextInt();
+                        towaryNaFakturze.add(new TowarNaFakturze(towar, ilosc));
+
+                        break;
+                    case 2:
+                        warunek = false;
+                        break;
+                }
+            }catch (InputMismatchException e){
+                System.out.println("\n\nNIEPRAWIDŁOWE ARGUMENTY\n\n");
+            }
+
+        }while (warunek);
+
+        return towaryNaFakturze;
+    }
+
+    private void dodanieFakturyDoBazydanych(){
+        Date date = Date.valueOf(this.dataWystawienia);
+        Firma kontrachent = (Firma) this.kontrachent;
+//        System.out.println("INSERT INTO faktury (typ_faktury,nr_faktury,data_wystawienia,kontrachent_id,wartosc_sprzedazy_netto,wartosc_sprzedazy_brutto,wartosc_calkowita_podatku,uwagi) " +
+//                "VALUES('VAT','"+this.numerFaktury+"','"+date+"',"+ this.kontrachent.getIndexFromDataBase(kontrachent)+","+this.wartoscSprzedazyNetto+","+this.wartoscSprzedazyBrutto+","+(this.wartoscSprzedazyBrutto-this.wartoscSprzedazyNetto)+",'"+this.uwaga+"');");
+//        QueryExecutor.executeQuery("INSERT INTO faktury (typ_faktury,nr_faktury,data_wystawienia,kontrachent_id,wartosc_sprzedazy_netto,wartosc_sprzedazy_brutto,wartosc_calkowita_podatku,uwagi) VALUES('VAT','0/11/2021','2021-11-12',1,54.0,1296.0,1242.0,'uwaga');");
+        QueryExecutor.executeQuery("INSERT INTO faktury (typ_faktury,nr_faktury,data_wystawienia,kontrachent_id,wartosc_sprzedazy_netto,wartosc_sprzedazy_brutto,wartosc_calkowita_podatku,uwagi) " +
+                "VALUES('VAT','"+this.numerFaktury+"','"+date+"',"+ this.kontrachent.getIndexFromDataBase(kontrachent)+","+this.wartoscSprzedazyNetto+","+this.wartoscSprzedazyBrutto+","+(this.wartoscSprzedazyBrutto-this.wartoscSprzedazyNetto)+",'"+this.uwaga+"');");
+        this.dodanieListyTowarow();
+
+
+    }
+
+    private void dodanieListyTowarow(){
+
+        for (TowarNaFakturze towarNaFakturze : this.listaTowarow){
+            System.out.println("INSERT INTO produkty_na_fakturach_vat VALUES("+this.getIndexFromDataBase(Faktura.this)+","+towarNaFakturze.getTowar().getIndexFromDataBase(towarNaFakturze.getTowar())+","+towarNaFakturze.getIlosc()+",0,0,0);");
+            QueryExecutor.executeQuery("INSERT INTO produkty_na_fakturach_vat VALUES("+this.getIndexFromDataBase(Faktura.this)+","+towarNaFakturze.getTowar().getIndexFromDataBase(towarNaFakturze.getTowar())+","+towarNaFakturze.getIlosc()+",0,0,0);");
+        }
+
+        }
+
+    private static LocalDate dodanieDatyDoFaktury(){
+        LocalDate nowaData=null;
+        Scanner scanner = new Scanner(System.in);
+        int wybor;
+        boolean warunek = true;
+
+        do {
+            try {
+
+
+                System.out.println("DATA WYSTAWIANIA");
+                System.out.println("""
+                        1 -> Dzisiejsza data
+                        2 -> Ustaw date
+                        """);
+                wybor = scanner.nextInt();
+
+                switch (wybor){
+                    case 1:
+                        nowaData = LocalDate.now();
+
+                        break;
+                    case 2:
+                        System.out.println("Rok: ");
+                        int rok = scanner.nextInt();
+                        System.out.println("Miesiac: ");
+                        int miesiac = scanner.nextInt();
+                        System.out.println("Dzien: ");
+                        int dzien = scanner.nextInt();
+                        nowaData = LocalDate.of(rok,miesiac,dzien);
+                        break;
+                }
+
+                warunek=false;
+
+            }catch (InputMismatchException e){
+                System.out.println("\n\nNIEPRAWDIŁOWY ARGUMENT");
+            }
+        }while (warunek);
+        return nowaData;
+    }
+
+    public int getIndexFromDataBase(Faktura faktura){
+        int index=0;
+
+        ResultSet resultSet = QueryExecutor.executeSelect("SELECT * FROM faktury WHERE nr_faktury='"+faktura.getNumerFaktury()+"';");
+        try {
+            resultSet.next();
+            index = resultSet.getInt("faktura_id");
+        }catch (SQLException e){
+            e.printStackTrace();
+        }
+
+        return index;
+    }
+
     @Override
     public String toString(){
         String naglowek ="FAKTURA\nnr faktury: " + this.numerFaktury + " data wystawienia: " + this.dataWystawienia.toString() +
@@ -80,4 +328,6 @@ public abstract class Faktura {
 
         return naglowek+produkty+podsumowanie;
     }
+
+
 }

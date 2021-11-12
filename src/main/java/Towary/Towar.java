@@ -1,6 +1,7 @@
 package Towary;
 import DataBase.QueryExecutor;
 import DataStructure.JednostkiMiary;
+import Kontrachent.Firma;
 import Podatki.StawkaVat;
 
 import java.sql.ResultSet;
@@ -188,6 +189,42 @@ public class Towar {
             e.printStackTrace();
         }
         return listaTowaru;
+    }
+
+    public static Towar getByIndexFromDataBase(int index){
+
+        Towar towar =null;
+        try {
+            ResultSet result = QueryExecutor.executeSelect("SELECT * FROM towary WHERE produkt_id="+ index +";");
+            result.next();
+
+            String produktName = result.getString("produkt_name");
+            String jedostkaMiary = result.getString("jedostka_miary");
+            Double cenaZakupuNetto = result.getDouble("cena_zakupu_netto");
+            String stawkaVATZakupu = result.getString("stawka_VAT_zakupu");
+            Double cenaSprzedazyNetto = result.getDouble("cena_sprzedazy_netto");
+            String stawkaVATSprzedazy = result.getString("stawka_VAT_sprzedazy");
+
+            towar = new Towar(produktName,JednostkiMiary.sprawdzanieJednostekMiary(jedostkaMiary),cenaZakupuNetto,new StawkaVat(Integer.parseInt(stawkaVATZakupu)),cenaSprzedazyNetto,new StawkaVat(Integer.parseInt(stawkaVATSprzedazy)));
+        } catch (SQLException e){
+            e.printStackTrace();
+        }
+
+        return towar;
+    }
+
+    public int getIndexFromDataBase(Towar towar){
+        int index=0;
+
+        ResultSet resultSet = QueryExecutor.executeSelect("SELECT * FROM towary WHERE produkt_name='"+towar.getNazwa()+"';");
+        try {
+            resultSet.next();
+            index = resultSet.getInt("produkt_id");
+        }catch (SQLException e){
+            e.printStackTrace();
+        }
+
+        return index;
     }
 
     @Override
