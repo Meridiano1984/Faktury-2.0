@@ -43,6 +43,18 @@ public class TowarNaFakturze {
         return towar.getStawkaVatSprzedazy().getStawkaVAT()*ilosc;
     }
 
+    private double obliczanieWartosciNetto(){
+        return this.getIlosc()*this.getTowar().getCenaSprzedazyNetto();
+    }
+
+    private double obliczanieWartosciBrutto(){
+        return this.getIlosc()*this.getTowar().getCenaSprzedazyBrutto();
+    }
+
+    private double obliczenieStawkiVAT(){
+        return obliczanieWartosciBrutto() -obliczanieWartosciNetto();
+    }
+
 
     private double obliczanieWartosciBrutto(Towar towar, int ilosc){
         return towar.getCenaSprzedazyBrutto()*ilosc;

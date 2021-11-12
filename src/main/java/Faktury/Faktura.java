@@ -33,6 +33,7 @@ public abstract class Faktura {
 
 
     public Faktura(LocalDate dataWystawienia, MojaFirma mojaFirma, Kontrachent kontrachent, ArrayList<TowarNaFakturze> listaTowarow) {
+        liczbaFaktur = setLiczbaFaktur();
         this.numerFaktury =nadawanieNumeruWKonstruktorze();
         this.dataWystawienia = dataWystawienia;
         this.mojaFirma = mojaFirma;
@@ -43,8 +44,18 @@ public abstract class Faktura {
         liczbaFaktur++;
     }
 
-    public static void setLiczbaFaktur(int liczbaFaktur) {
-        Faktura.liczbaFaktur = liczbaFaktur;
+    private static int setLiczbaFaktur() {
+        int liczbaFaktur = 0;
+        ResultSet resultSet = QueryExecutor.executeSelect("SELECT * FROM faktury;");
+        try{
+            while (resultSet.next()){
+                liczbaFaktur++;
+            }
+        }catch (SQLException e){
+            e.printStackTrace();
+        }
+
+        return liczbaFaktur;
     }
 
     public String getNumerFaktury() {
@@ -172,7 +183,7 @@ public abstract class Faktura {
                          kontrachent = Firma.dodanieNowegoKontrachenta();
                         break;
                     case 2:
-                        Firma.wyswietlenieKontrachenta();
+//                        Firma.wyswietlenieKontrachenta();
                         kontrachent =Kontrachent.dodanieKontrachentaDoFaktury();
                         break;
                 }
@@ -248,10 +259,25 @@ public abstract class Faktura {
 
     private void dodanieListyTowarow(){
 
-        for (TowarNaFakturze towarNaFakturze : this.listaTowarow){
-            System.out.println("INSERT INTO produkty_na_fakturach_vat VALUES("+this.getIndexFromDataBase(Faktura.this)+","+towarNaFakturze.getTowar().getIndexFromDataBase(towarNaFakturze.getTowar())+","+towarNaFakturze.getIlosc()+",0,0,0);");
-            QueryExecutor.executeQuery("INSERT INTO produkty_na_fakturach_vat VALUES("+this.getIndexFromDataBase(Faktura.this)+","+towarNaFakturze.getTowar().getIndexFromDataBase(towarNaFakturze.getTowar())+","+towarNaFakturze.getIlosc()+",0,0,0);");
-        }
+
+
+            int i = 0;
+            for (TowarNaFakturze towarNaFakturze : this.listaTowarow) {
+                try {
+
+
+//            System.out.println("INSERT INTO produkty_na_fakturach_vat VALUES("+this.getIndexFromDataBase(Faktura.this)+","+towarNaFakturze.getTowar().getIndexFromDataBase(towarNaFakturze.getTowar())+","+towarNaFakturze.getIlosc()+",0,0,0);");
+//            QueryExecutor.executeQuery("INSERT INTO produkty_na_fakturach_vat VALUES("+this.getIndexFromDataBase(Faktura.this)+","+towarNaFakturze.getTowar().getIndexFromDataBase(towarNaFakturze.getTowar())+","+towarNaFakturze.getIlosc()+",0,0,0);");
+                    System.out.println("INSERT INTO produkty_na_fakturach_vat VALUES(" + this.getIndexFromDataBase(Faktura.this) + "," + towarNaFakturze.getTowar().getIndexFromDataBase(towarNaFakturze.getTowar()) + "," + towarNaFakturze.getIlosc() + "," + this.obliczanieWartosciNetto(this.listaTowarow.get(i)) + "," + this.obliczanieWartosciBrutto(this.listaTowarow.get(i)) + "," + this.obliczenieStawkiVAT(this.listaTowarow.get(i)) + ");");
+                    QueryExecutor.executeQuery("INSERT INTO produkty_na_fakturach_vat VALUES(" + this.getIndexFromDataBase(Faktura.this) + "," + towarNaFakturze.getTowar().getIndexFromDataBase(towarNaFakturze.getTowar()) + "," + towarNaFakturze.getIlosc() + "," + this.obliczanieWartosciNetto(this.listaTowarow.get(i)) + "," + this.obliczanieWartosciBrutto(this.listaTowarow.get(i)) + "," + this.obliczenieStawkiVAT(this.listaTowarow.get(i)) + ");");
+                    i++;
+                }catch (RuntimeException e){
+                    System.out.println("PRODUKTY SIE NIE DODALY NAPISZ TU FUNKCJE");
+                    this.sprawdzenieCzyproduktznajdujeSieWTowarachWystawionych(this.getListaTowarow().get(i));
+                }
+            }
+
+
 
         }
 
@@ -309,6 +335,35 @@ public abstract class Faktura {
         }
 
         return index;
+    }
+
+    private double obliczanieWartosciNetto(TowarNaFakturze towarNaFakturze){
+        return towarNaFakturze.getIlosc()*towarNaFakturze.getTowar().getCenaSprzedazyNetto();
+    }
+
+    private double obliczanieWartosciBrutto(TowarNaFakturze towarNaFakturze){
+        return towarNaFakturze.getIlosc()*towarNaFakturze.getTowar().getCenaSprzedazyBrutto();
+    }
+
+    private double obliczenieStawkiVAT(TowarNaFakturze towarNaFakturze){
+        return obliczanieWartosciBrutto(towarNaFakturze) -obliczanieWartosciNetto(towarNaFakturze);
+    }
+
+    private void sprawdzenieCzyproduktznajdujeSieWTowarachWystawionych(TowarNaFakturze towarNaFakturze){
+
+        int indexTowarDoSprawdzenia = towarNaFakturze.getTowar().getIndexFromDataBase(towarNaFakturze.getTowar());
+        int indexFakturyDoSprawdzenia = this.getIndexFromDataBase(Faktura.this);
+        System.out.println("SELECT * FROM produkty_na_fakturach_vat WHERE faktura_id=" + indexFakturyDoSprawdzenia + " AND produkt_id=" + indexTowarDoSprawdzenia + ";");
+        ResultSet result = QueryExecutor.executeSelect("SELECT * FROM produkty_na_fakturach_vat WHERE faktura_id=" + indexFakturyDoSprawdzenia + " AND produkt_id=" + indexTowarDoSprawdzenia + ";");
+        try {
+            if(result.next()){
+                QueryExecutor.executeQuery("UPDATE produkty_na_fakturach_vat SET ilosc_produktow = ilosc_produktow+" + towarNaFakturze.getIlosc() + " WHERE faktura_id=" + indexFakturyDoSprawdzenia + " AND produkt_id=" + indexTowarDoSprawdzenia + ";" );
+            }
+
+        } catch (SQLException e){
+            e.printStackTrace();
+        }
+
     }
 
     @Override
