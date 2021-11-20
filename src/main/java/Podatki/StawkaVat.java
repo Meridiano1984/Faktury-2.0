@@ -10,6 +10,21 @@ public class StawkaVat {
         this.stawkaVAT = (double) stawkiVAT.getValue()/100;
     }
 
+    public StawkaVat(int stawkaVAT) {
+        this.stawkaVAT = (double) stawkaVAT;
+
+        if(stawkaVAT==23){
+            this.stawkaBruttoProcentowa = StawkiVAT.DWADZIESICIATRYPROCENT;
+        } else if( stawkaVAT ==8){
+            this.stawkaBruttoProcentowa = StawkiVAT.OSIEMPROCENT;
+        } else if(stawkaVAT==5){
+            this.stawkaBruttoProcentowa = StawkiVAT.PIECPROCENT;
+        } else if(stawkaVAT==0){
+            this.stawkaBruttoProcentowa =StawkiVAT.ZEROPROCENT;
+        }
+
+    }
+
     public static Double obliczanieCenyBrutto(Double cenaNetto, StawkaVat stawkaVat){
         return cenaNetto+(cenaNetto* stawkaVat.stawkaVAT);
     }

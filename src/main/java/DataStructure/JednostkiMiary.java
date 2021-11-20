@@ -1,6 +1,8 @@
 package DataStructure;
 
 
+import java.awt.*;
+
 /**
 Typ wyliczeniowy określający możliwe jednostki miar określających ilość produktów
  */
@@ -15,7 +17,8 @@ public enum JednostkiMiary {
     METR("m"),
     CENTYMETR("cm"),
     METRKWADRATOWY("m2"),
-    METRSZESCIENNY("m3");
+    METRSZESCIENNY("m3"),
+    BRAKJEDNOSTKI("brak");
 
 
     String jednostkaMiary;
@@ -24,4 +27,31 @@ public enum JednostkiMiary {
         jednostkaMiary = jednostka_miary;
     }
 
+    public String getJednostkaMiary() {
+        return jednostkaMiary;
+    }
+
+    public void setJednostkaMiary(String jednostkaMiary) {
+        this.jednostkaMiary = jednostkaMiary;
+    }
+
+    public static JednostkiMiary sprawdzanieJednostekMiary(String jednostkaMiary){
+        return switch (jednostkaMiary) {
+            case "szt" -> SZTUKA;
+            case "kg" -> KILOGRAM;
+            case "T" -> TONA;
+            case "l" -> LITR;
+            case "ml" -> MINILITR;
+            case "m" -> METR;
+            case "cm" -> CENTYMETR;
+            case "m2" -> METRKWADRATOWY;
+            case "m3" -> METRSZESCIENNY;
+            default -> BRAKJEDNOSTKI;
+        };
+
+    }
+
+    public static String dostepneJednostki(){
+        return "szt, kg, T, l, ml, m, cm, m2, m3";
+    }
 }

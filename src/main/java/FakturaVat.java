@@ -305,7 +305,7 @@ public class FakturaVat implements DataBaseOperations, FakturaInterface {
             int kontrachent_id = result.getInt("kontrachent_id");
             Date data_wystawienia = Date.valueOf(this.getDataWystawienia());
             QueryExecutor.executeQuery("INSERT INTO faktury (nr_faktury,data_wystawienia,kontrachent_id,cenaBrutto) VALUES ('" + this.getNrFaktury()+"','"+ data_wystawienia +"'," + kontrachent_id +",0);");
-            System.out.println("INSERT INTO faktury (nr_faktury,data_wystawienia,kontrachent_id,cenaBrutto) VALUES ('" + this.getNrFaktury()+"','"+ data_wystawienia +"'," + kontrachent_id +",0);");
+//            System.out.println("INSERT INTO faktury (nr_faktury,data_wystawienia,kontrachent_id,cenaBrutto) VALUES ('" + this.getNrFaktury()+"','"+ data_wystawienia +"'," + kontrachent_id +",0);");
 
         }catch (SQLException e){
             e.printStackTrace();
