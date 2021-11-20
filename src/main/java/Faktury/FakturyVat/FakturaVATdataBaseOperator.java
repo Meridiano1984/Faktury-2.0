@@ -23,6 +23,7 @@ public class FakturaVATdataBaseOperator {
         int fakturaID;
         int kontrachentID;
         String numerFaktury;
+        String uwaga;
         LocalDate dataWystawienia;
         ArrayList<TowarNaFakturze> towaryNaFakturze;
 
@@ -34,12 +35,14 @@ public class FakturaVATdataBaseOperator {
                 numerFaktury = result.getString("nr_faktury");
                 kontrachentID = result.getInt("kontrachent_id");
                 dataWystawienia = result.getDate("data_wystawienia").toLocalDate();
+                uwaga = result.getString("uwagi");
 
                 //POBIERAMY KONTRACHENTA
                 FirmaKontrachenta firmaKontrachenta = FirmaKontrachenta.getByIndex(kontrachentID);
                 //POBIERANIE TOWARU Z DANEJ FAKTURY
                 towaryNaFakturze = this.getTowarNaFakturze(fakturaID);
                 FakturaVAT fakturaVAT = new FakturaVAT(dataWystawienia,MojaFirma.getInstance(),firmaKontrachenta,towaryNaFakturze);
+                fakturaVAT.setUwaga(uwaga);
 
                 System.out.print(numerFaktury + ".");
                 System.out.println(fakturaVAT.toString());

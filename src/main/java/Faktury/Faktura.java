@@ -118,16 +118,17 @@ public abstract class Faktura {
         return uwaga;
     }
 
-//    public void setUwaga(String uwaga) {
-//        this.uwaga = uwaga;
-//    }
+    public void setUwaga(String uwaga) {
+        this.uwaga = uwaga;
+    }
 
     public void setUwaga() {
         Scanner scanner = new Scanner(System.in);
         String nowaUwaga;
         System.out.println("\n\bTREŚĆ UWAGI(256 ZNAKOW):");
 //        nowaUwaga = scanner.next(".{256}");
-        nowaUwaga = scanner.next();
+        nowaUwaga = scanner.nextLine();
+        System.out.println("UWAGA W SKANERZE:" + nowaUwaga);
 
         this.uwaga = nowaUwaga;
     }
@@ -379,6 +380,11 @@ public abstract class Faktura {
                 produkty = produkty + towarNaFakturze.getTowar().toString() + " ILOSC: " + towarNaFakturze.getIlosc() + "\n";
             }
         }
+
+        System.out.println("\n---UWAGA---");
+        System.out.println(this.getUwaga());
+        System.out.println("-----------");
+
         String podsumowanie = "\n\nNETTO W SUMIE: " + this.wartoscSprzedazyNetto + " \nBRUTTO W SUMIE: " + this.wartoscSprzedazyBrutto;
 
         return naglowek+produkty+podsumowanie;
