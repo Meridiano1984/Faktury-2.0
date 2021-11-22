@@ -7,7 +7,7 @@ public class DatabaseInitialization {
     public DatabaseInitialization() {
     }
 
-    public void tworzenieBazydanychV2 (){
+    public void tworzenieBazydanych(){
 
         String Query;
 
@@ -153,7 +153,7 @@ public class DatabaseInitialization {
 
     }
 
-    public void usuwanieTabelv2(){
+    public void usuwanieTabel(){
 
 
         executeQuery("DROP TABLE produkty_na_fakturach_vat;");

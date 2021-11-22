@@ -15,7 +15,6 @@ public class DbConnector {
         Connection connection =null;
         try {
             connection = DriverManager.getConnection(URl, USER, PASSWORD);
-//            System.out.println("Połączono");
         } catch (SQLException e){
             e.printStackTrace();
             System.out.println("Polaczenie nie powoiodlo sie na poziomie Connectora");

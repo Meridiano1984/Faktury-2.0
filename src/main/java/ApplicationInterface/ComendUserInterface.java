@@ -59,8 +59,6 @@ public class ComendUserInterface {
                     break;
             }
 
-
-
         } while (true);
 
     }

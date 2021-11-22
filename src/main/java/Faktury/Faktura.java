@@ -248,9 +248,6 @@ public abstract class Faktura {
     private void dodanieFakturyDoBazydanych(){
         Date date = Date.valueOf(this.dataWystawienia);
         Firma kontrachent = (Firma) this.kontrachent;
-//        System.out.println("INSERT INTO faktury (typ_faktury,nr_faktury,data_wystawienia,kontrachent_id,wartosc_sprzedazy_netto,wartosc_sprzedazy_brutto,wartosc_calkowita_podatku,uwagi) " +
-//                "VALUES('VAT','"+this.numerFaktury+"','"+date+"',"+ this.kontrachent.getIndexFromDataBase(kontrachent)+","+this.wartoscSprzedazyNetto+","+this.wartoscSprzedazyBrutto+","+(this.wartoscSprzedazyBrutto-this.wartoscSprzedazyNetto)+",'"+this.uwaga+"');");
-//        QueryExecutor.executeQuery("INSERT INTO faktury (typ_faktury,nr_faktury,data_wystawienia,kontrachent_id,wartosc_sprzedazy_netto,wartosc_sprzedazy_brutto,wartosc_calkowita_podatku,uwagi) VALUES('VAT','0/11/2021','2021-11-12',1,54.0,1296.0,1242.0,'uwaga');");
         QueryExecutor.executeQuery("INSERT INTO faktury (typ_faktury,nr_faktury,data_wystawienia,kontrachent_id,wartosc_sprzedazy_netto,wartosc_sprzedazy_brutto,wartosc_calkowita_podatku,uwagi) " +
                 "VALUES('VAT','"+this.numerFaktury+"','"+date+"',"+ this.kontrachent.getIndexFromDataBase(kontrachent)+","+this.wartoscSprzedazyNetto+","+this.wartoscSprzedazyBrutto+","+(this.wartoscSprzedazyBrutto-this.wartoscSprzedazyNetto)+",'"+this.uwaga+"');");
         this.dodanieListyTowarow();
@@ -259,16 +256,10 @@ public abstract class Faktura {
     }
 
     private void dodanieListyTowarow(){
-
-
-
             int i = 0;
             for (TowarNaFakturze towarNaFakturze : this.listaTowarow) {
                 try {
-
-
-//            System.out.println("INSERT INTO produkty_na_fakturach_vat VALUES("+this.getIndexFromDataBase(Faktura.this)+","+towarNaFakturze.getTowar().getIndexFromDataBase(towarNaFakturze.getTowar())+","+towarNaFakturze.getIlosc()+",0,0,0);");
-//            QueryExecutor.executeQuery("INSERT INTO produkty_na_fakturach_vat VALUES("+this.getIndexFromDataBase(Faktura.this)+","+towarNaFakturze.getTowar().getIndexFromDataBase(towarNaFakturze.getTowar())+","+towarNaFakturze.getIlosc()+",0,0,0);");
+                    QueryExecutor.executeQuery("INSERT INTO produkty_na_fakturach_vat VALUES("+this.getIndexFromDataBase(Faktura.this)+","+towarNaFakturze.getTowar().getIndexFromDataBase(towarNaFakturze.getTowar())+","+towarNaFakturze.getIlosc()+",0,0,0);");
                     System.out.println("INSERT INTO produkty_na_fakturach_vat VALUES(" + this.getIndexFromDataBase(Faktura.this) + "," + towarNaFakturze.getTowar().getIndexFromDataBase(towarNaFakturze.getTowar()) + "," + towarNaFakturze.getIlosc() + "," + this.obliczanieWartosciNetto(this.listaTowarow.get(i)) + "," + this.obliczanieWartosciBrutto(this.listaTowarow.get(i)) + "," + this.obliczenieStawkiVAT(this.listaTowarow.get(i)) + ");");
                     QueryExecutor.executeQuery("INSERT INTO produkty_na_fakturach_vat VALUES(" + this.getIndexFromDataBase(Faktura.this) + "," + towarNaFakturze.getTowar().getIndexFromDataBase(towarNaFakturze.getTowar()) + "," + towarNaFakturze.getIlosc() + "," + this.obliczanieWartosciNetto(this.listaTowarow.get(i)) + "," + this.obliczanieWartosciBrutto(this.listaTowarow.get(i)) + "," + this.obliczenieStawkiVAT(this.listaTowarow.get(i)) + ");");
                     i++;
@@ -277,9 +268,6 @@ public abstract class Faktura {
                     this.sprawdzenieCzyproduktznajdujeSieWTowarachWystawionych(this.getListaTowarow().get(i));
                 }
             }
-
-
-
         }
 
     private static LocalDate dodanieDatyDoFaktury(){
@@ -290,8 +278,6 @@ public abstract class Faktura {
 
         do {
             try {
-
-
                 System.out.println("DATA WYSTAWIANIA");
                 System.out.println("""
                         1 -> Dzisiejsza data
@@ -314,7 +300,6 @@ public abstract class Faktura {
                         nowaData = LocalDate.of(rok,miesiac,dzien);
                         break;
                 }
-
                 warunek=false;
 
             }catch (InputMismatchException e){
@@ -334,7 +319,6 @@ public abstract class Faktura {
         }catch (SQLException e){
             e.printStackTrace();
         }
-
         return index;
     }
 
@@ -364,7 +348,6 @@ public abstract class Faktura {
         } catch (SQLException e){
             e.printStackTrace();
         }
-
     }
 
     @Override

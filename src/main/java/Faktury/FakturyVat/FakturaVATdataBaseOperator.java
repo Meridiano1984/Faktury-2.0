@@ -105,6 +105,4 @@ public class FakturaVATdataBaseOperator {
         return towarNaFakturze;
     }
 
-
-
 }
