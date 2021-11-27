@@ -53,6 +53,9 @@ public class FakturaVATdataBaseOperator {
 
     }
 
+
+
+
     private ArrayList<TowarNaFakturze> getTowarNaFakturze(int fakturaID){
 
         ArrayList<TowarNaFakturze> towarNaFakturze =  new ArrayList<>();

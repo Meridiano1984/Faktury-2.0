@@ -40,9 +40,6 @@ public abstract class Firma extends Kontrachent{
         }
     }
 
-
-
-
     public static void wyswietlenieKontrachenta(){
 
         ResultSet resultSet = QueryExecutor.executeSelect("SELECT * FROM kontrachenci;");

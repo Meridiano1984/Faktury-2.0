@@ -8,6 +8,7 @@ import Kontrachent.Kontrachent;
 import Kontrachent.MojaFirma;
 import Towary.Towar;
 import Towary.TowarNaFakturze;
+import Kontrachent.FirmaKontrachenta;
 
 import java.sql.Date;
 import java.sql.ResultSet;
@@ -25,9 +26,11 @@ public abstract class Faktura {
     protected LocalDate dataWystawienia;
     protected Firma mojaFirma;
     protected Kontrachent kontrachent;
+    protected String nazwaKontrachenta;
     protected ArrayList<TowarNaFakturze> listaTowarow;
     protected double wartoscSprzedazyNetto;
     protected double wartoscSprzedazyBrutto;
+    protected double wartoscPodatku;
     protected String uwaga;
 
 
@@ -42,6 +45,35 @@ public abstract class Faktura {
         this.wartoscSprzedazyNetto = this.obliczanieWartosciSprzedazyNetto(listaTowarow);
         this.wartoscSprzedazyBrutto = this.obliczanieWartosciSprzedazyBrutto(listaTowarow);
         liczbaFaktur++;
+    }
+
+    public Faktura(String numerFaktury, LocalDate dataWystawienia, MojaFirma mojaFirma, Kontrachent kontrachent, ArrayList<TowarNaFakturze> listaTowarow, double wartoscSprzedazyNetto, double wartoscSprzedazyBrutto, String uwaga,double wartoscPodatku) {
+        this.numerFaktury = numerFaktury;
+        this.dataWystawienia = dataWystawienia;
+        this.mojaFirma = mojaFirma;
+        this.kontrachent = kontrachent;
+        this.nazwaKontrachenta = ((Firma) kontrachent).getNazwaFirmy();
+        this.listaTowarow = listaTowarow;
+        this.wartoscSprzedazyNetto = wartoscSprzedazyNetto;
+        this.wartoscSprzedazyBrutto = wartoscSprzedazyBrutto;
+        this.wartoscPodatku =wartoscPodatku;
+        this.uwaga = uwaga;
+    }
+
+    public String getNazwaKontrachenta() {
+        return nazwaKontrachenta;
+    }
+
+    public void setNazwaKontrachenta(String nazwaKontrachenta) {
+        this.nazwaKontrachenta = nazwaKontrachenta;
+    }
+
+    public double getWartoscPodatku() {
+        return wartoscPodatku;
+    }
+
+    public void setWartoscPodatku(double wartoscPodatku) {
+        this.wartoscPodatku = wartoscPodatku;
     }
 
     private static int setLiczbaFaktur() {
@@ -348,6 +380,44 @@ public abstract class Faktura {
         } catch (SQLException e){
             e.printStackTrace();
         }
+    }
+
+    public static ArrayList<FakturaVAT> getAllFakturFromDBToTabel(){
+        ArrayList<FakturaVAT> listaFaktur = new ArrayList();
+
+        int kontrachentID;
+        String numerFaktury;
+        String uwaga;
+        LocalDate dataWystawienia;
+        double wartoscSprzedazyNetto;
+        double wartoscSprzedazyBrutto;
+        double wartoscPodatku;
+
+        try{
+            //POBIERAMY FAKTURY
+            ResultSet result = QueryExecutor.executeSelect("SELECT * FROM faktury;");
+            while (result.next()){
+                numerFaktury = result.getString("nr_faktury");
+                kontrachentID = result.getInt("kontrachent_id");
+                dataWystawienia = result.getDate("data_wystawienia").toLocalDate();
+                wartoscSprzedazyNetto = result.getDouble("wartosc_sprzedazy_netto");
+                wartoscSprzedazyBrutto =result.getDouble("wartosc_sprzedazy_brutto");
+                wartoscPodatku = result.getDouble("wartosc_calkowita_podatku");
+                uwaga = result.getString("uwagi");
+                //POBIERAMY KONTRACHENTA
+                FirmaKontrachenta firmaKontrachenta = FirmaKontrachenta.getByIndex(kontrachentID);
+
+                FakturaVAT fakturka = new FakturaVAT(numerFaktury,dataWystawienia,MojaFirma.getInstance(),firmaKontrachenta,null,wartoscSprzedazyNetto,wartoscSprzedazyBrutto,uwaga,wartoscPodatku);
+                System.out.println(fakturka.toString());
+                System.out.println("kontrachent: " + fakturka.nazwaKontrachenta);
+                System.out.println("wartosc podatku: " + fakturka.wartoscPodatku);
+                listaFaktur.add(fakturka);
+            }
+        } catch (SQLException e){
+            e.printStackTrace();
+        }
+
+        return listaFaktur;
     }
 
     @Override

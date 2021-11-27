@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane prefHeight="400.0" prefWidth="677.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GUIcontrol.MainWindow.Controller">
+   <children>
+      <TableView fx:id="fakturyTabelView" layoutY="133.0">
+         <columns>
+            <TableColumn fx:id="fakturaIDColumn" prefWidth="23.20001220703125" text="Lp." />
+            <TableColumn fx:id="typFakturyColumn" prefWidth="127.20001220703125" text="Typ faktury" />
+            <TableColumn fx:id="nrFakturyColumn" prefWidth="75.0" text="nr Faktury" />
+            <TableColumn fx:id="kontrachentNameColumn" prefWidth="75.0" text="KontrachentName" />
+            <TableColumn fx:id="dataWystawianiaColumn" prefWidth="75.0" text="Data wystawiania" />
+            <TableColumn fx:id="wartoscNettoColumn" prefWidth="75.0" text="Wartość netto" />
+            <TableColumn fx:id="wartoscBruttoColumn" prefWidth="75.0" text="Wartosc brutto" />
+            <TableColumn fx:id="wartoscPodatkuColumn" prefWidth="75.0" text="Wartosc podatku" />
+            <TableColumn fx:id="uwagiColumn" prefWidth="75.0" text="Uwagi" />
+         </columns>
+      </TableView>
+      <Button fx:id="dodajFaktureButton" layoutX="69.0" layoutY="61.0" mnemonicParsing="false" onAction="#dodajFakture" prefHeight="26.0" prefWidth="106.0" text="Dodaj Fakture" />
+   </children>
+</AnchorPane>
