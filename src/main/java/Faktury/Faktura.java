@@ -408,9 +408,9 @@ public abstract class Faktura {
                 FirmaKontrachenta firmaKontrachenta = FirmaKontrachenta.getByIndex(kontrachentID);
 
                 FakturaVAT fakturka = new FakturaVAT(numerFaktury,dataWystawienia,MojaFirma.getInstance(),firmaKontrachenta,null,wartoscSprzedazyNetto,wartoscSprzedazyBrutto,uwaga,wartoscPodatku);
-                System.out.println(fakturka.toString());
-                System.out.println("kontrachent: " + fakturka.nazwaKontrachenta);
-                System.out.println("wartosc podatku: " + fakturka.wartoscPodatku);
+//                System.out.println(fakturka.toString());
+//                System.out.println("kontrachent: " + fakturka.nazwaKontrachenta);
+//                System.out.println("wartosc podatku: " + fakturka.wartoscPodatku);
                 listaFaktur.add(fakturka);
             }
         } catch (SQLException e){

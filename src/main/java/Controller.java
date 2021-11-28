@@ -1,15 +1,10 @@
-package GUIcontrol.MainWindow;
-
 import Faktury.Faktura;
 import Faktury.FakturyVat.FakturaVAT;
-import Kontrachent.Kontrachent;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -18,6 +13,7 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 
+import java.awt.*;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.Date;
@@ -34,10 +30,6 @@ public class Controller implements Initializable {
     private Scene scene;
     private Parent root;
 
-    @FXML
-    private TableColumn<String,String> fakturaIDColumn;
-    @FXML
-    private TableColumn<String,String> typFakturyColumn;
     @FXML
     private TableColumn<String,String> nrFakturyColumn;
     @FXML
@@ -57,11 +49,11 @@ public class Controller implements Initializable {
     @FXML
     private Button dodajFaktureButton;
 
-    public static void tabelSeetings(){
-
+    public Controller() {
+        System.out.println("Cotroller utworzony");
     }
 
-//    public Controller() {
+    //    public Controller() {
 ////        fakturyTabelView.setItems(getFakturyToTabel());
 ////        fakturyTabelView.setEditable(true);
 //
@@ -91,41 +83,30 @@ public class Controller implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-//        fakturaIDColumn.
-        nrFakturyColumn.setCellValueFactory(new PropertyValueFactory<>("numerFaktury"));
-        kontrachentNameColumn.setCellValueFactory(new PropertyValueFactory<>("nazwaKontrachenta"));
-        dataWystawianiaColumn.setCellValueFactory(new PropertyValueFactory<>("dataWystawienia"));
-        wartoscNettoColumn.setCellValueFactory(new PropertyValueFactory<>("wartoscSprzedazyNetto"));
-        wartoscBruttoColumn.setCellValueFactory(new PropertyValueFactory<>("wartoscSprzedazyBrutto"));
-        wartoscPodatkuColumn.setCellValueFactory(new PropertyValueFactory<>("wartoscPodatku"));
-        uwagiColumn.setCellValueFactory(new PropertyValueFactory<>("uwaga"));
-
-        fakturyTabelView.setItems(getFakturyToTabel());
+                //TODO JAK ZROBIC BY TO NIE WLACZAO SIE PODCZAS ZMIANY OKNA
+                nrFakturyColumn.setCellValueFactory(new PropertyValueFactory<>("numerFaktury"));
+                kontrachentNameColumn.setCellValueFactory(new PropertyValueFactory<>("nazwaKontrachenta"));
+                dataWystawianiaColumn.setCellValueFactory(new PropertyValueFactory<>("dataWystawienia"));
+                wartoscNettoColumn.setCellValueFactory(new PropertyValueFactory<>("wartoscSprzedazyNetto"));
+                wartoscBruttoColumn.setCellValueFactory(new PropertyValueFactory<>("wartoscSprzedazyBrutto"));
+                wartoscPodatkuColumn.setCellValueFactory(new PropertyValueFactory<>("wartoscPodatku"));
+                uwagiColumn.setCellValueFactory(new PropertyValueFactory<>("uwaga"));
+                fakturyTabelView.setItems(getFakturyToTabel());
     }
 
-//    public void dodajFakture(ActionEvent event){
-//        try {
-////            Parent root = FXMLLoader.load(getClass().getResource("dodawanieFakturyWindow.fxml"));
-//            Parent root = FXMLLoader.load(getClass().getResource("resources/dodawanieFakturyWindow.fxml"));
-//            stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-//            scene = new Scene(root);
-//            stage.setScene(scene);
-//            stage.show();
-//
-//        }catch (IOException e){
-//            e.printStackTrace();
-//        }
-////        System.out.println("Dodanie fkatury");
-//
-//
-//    }
+
 
     public void dodajFakture(ActionEvent e) throws IOException {
-        Parent root = FXMLLoader.load(getClass().getResource("dodawanieFakturyWindow.fxml"));
-        stage = (Stage)((Node)e.getSource()).getScene().getWindow();
-        scene= new Scene(root);
-        stage.setScene(scene);
-        stage.show();
+
+        dodawanieFakturyController controller2 = new dodawanieFakturyController();
+        controller2.noweOkno();
+    }
+
+    public void dodajProdukt(ActionEvent e) throws IOException{
+
+        dodawanieProduktuController dodawanieProduktuController = new dodawanieProduktuController();
+        dodawanieProduktuController.noweOkno();
+
     }
 
 }

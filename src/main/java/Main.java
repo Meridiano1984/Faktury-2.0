@@ -1,8 +1,6 @@
 //import ApplicationInterface.ComendUserInterface;
 //import ApplicationInterface.GuiControler;
 //import DataBase.DatabaseInitialization;
-import ApplicationInterface.ComendUserInterface;
-import GUIcontrol.MainWindow.Controller;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
