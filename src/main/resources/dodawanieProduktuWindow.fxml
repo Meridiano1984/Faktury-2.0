@@ -27,7 +27,7 @@
          </font>
       </Label>
       <TextField fx:id="jedonstkaMiaryTextField" layoutX="165.0" layoutY="112.0" promptText="np. szt" />
-      <TextField fx:id="cenaZakupuNettoTextField" layoutX="165.0" layoutY="142.0" />
+      <TextField fx:id="cenaZakupuNettoTextField" layoutX="165.0" layoutY="142.0" onAction="#ustawCeneBruttoZakupu" onKeyTyped="#ustawCeneBruttoZakupu" />
       <Label layoutX="8.0" layoutY="145.0" prefHeight="22.0" prefWidth="138.0" text="Cena Netto zakupu:">
          <font>
             <Font size="15.0" />
@@ -38,8 +38,8 @@
             <Font size="15.0" />
          </font>
       </Label>
-      <TextField fx:id="stawkaVatZakupuTextField" layoutX="418.0" layoutY="142.0" prefHeight="26.0" prefWidth="58.0" promptText="np. 23%" />
-      <Label fx:id="cenaZakupuBruttoLabel" layoutX="486.0" layoutY="145.0" prefHeight="22.0" prefWidth="194.0" text="Cena Brutto zakupu: ">
+      <TextField fx:id="stawkaVatZakupuTextField" layoutX="418.0" layoutY="142.0" onAction="#ustawCeneBruttoZakupu" onKeyTyped="#ustawCeneBruttoZakupu" prefHeight="26.0" prefWidth="58.0" promptText="np. 23%" />
+      <Label fx:id="cenaZakupuBruttoLabel" layoutX="486.0" layoutY="145.0" prefHeight="22.0" prefWidth="242.0" text="Cena Brutto zakupu: ">
          <font>
             <Font size="15.0" />
          </font>
@@ -49,14 +49,14 @@
             <Font size="15.0" />
          </font>
       </Label>
-      <TextField fx:id="cenaSprzedazyNettoTextField" layoutX="166.0" layoutY="176.0" />
+      <TextField fx:id="cenaSprzedazyNettoTextField" layoutX="166.0" layoutY="176.0" onKeyTyped="#ustawCeneBruttoSprzedazy" />
       <Label layoutX="324.0" layoutY="177.0" text="Stawka VAT:">
          <font>
             <Font size="15.0" />
          </font>
       </Label>
-      <TextField fx:id="stawkaVatSprzedazyTextField" layoutX="418.0" layoutY="175.0" prefHeight="26.0" prefWidth="58.0" promptText="np. 23%" />
-      <Label fx:id="cenaSprzedazyLabel" layoutX="486.0" layoutY="177.0" prefHeight="22.0" prefWidth="194.0" text="Cena Brutto  sprzedazy: ">
+      <TextField fx:id="stawkaVatSprzedazyTextField" layoutX="418.0" layoutY="175.0" onKeyTyped="#ustawCeneBruttoSprzedazy" prefHeight="26.0" prefWidth="58.0" promptText="np. 23%" />
+      <Label fx:id="cenaSprzedazyBruttoLabel" layoutX="486.0" layoutY="177.0" prefHeight="22.0" prefWidth="242.0" text="Cena Brutto  sprzedazy: ">
          <font>
             <Font size="15.0" />
          </font>

@@ -12,6 +12,8 @@ import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 
 public class dodawanieProduktuController {
 
@@ -37,7 +39,7 @@ public class dodawanieProduktuController {
     @FXML
     private Label cenaZakupuBruttoLabel;
     @FXML
-    private Label cenaSprzedazyLabel;
+    private Label cenaSprzedazyBruttoLabel;
 
 
     public void noweOkno() throws IOException {
@@ -54,7 +56,6 @@ public class dodawanieProduktuController {
 
         Alert alert;
 
-//        this.produktValidation(nazwaTowaruTextField.getText(),jedonstkaMiaryTextField.getText(),cenaZakupuNettoTextField.getText(),stawkaVatZakupuTextField.getText(),cenaSprzedazyNettoTextField.getText(),stawkaVatSprzedazyTextField.getText());
 
         if(this.produktValidation(nazwaTowaruTextField.getText(),jedonstkaMiaryTextField.getText(),cenaZakupuNettoTextField.getText(),stawkaVatZakupuTextField.getText(),cenaSprzedazyNettoTextField.getText(),stawkaVatSprzedazyTextField.getText())){
 
@@ -64,12 +65,12 @@ public class dodawanieProduktuController {
             alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setTitle("Informacja");
             alert.setHeaderText(null);
-            alert.setContentText("Produkt został dodany do bazy danych");
+            alert.setContentText(nazwaTowaruTextField.getText()+" został(a) dodany do bazy danych");
             alert.showAndWait();
         } else {
             alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Error");
-            alert.setContentText("Produkt nie został dodany do bazy danych");
+            alert.setContentText(nazwaTowaruTextField.getText()+" nie został(a) dodany do bazy danych");
             alert.showAndWait();
         }
 
@@ -78,7 +79,6 @@ public class dodawanieProduktuController {
 
     private boolean produktValidation(String nazwa, String jednostkiMiary, String cenaZakupuNetto, String stawkaVatZakupu, String cenaSprzedazyNetto, String stawkaVatSprzedazy){
 
-        boolean isValidated;
         try {
             JednostkiMiary jednostkiMiaryCheck = JednostkiMiary.sprawdzanieJednostekMiary(jednostkiMiary);
             double cenaZakupuNettoDouble = Double.parseDouble(cenaZakupuNetto);
@@ -92,6 +92,23 @@ public class dodawanieProduktuController {
         } catch (Exception e){
             System.out.println("Nieprawidłowe argumenty");
             return false;
+        }
+    }
+
+    public void ustawCeneBruttoSprzedazy(){
+            if(cenaSprzedazyNettoTextField.getText()!=null && stawkaVatSprzedazyTextField.getText()!=null && !cenaSprzedazyNettoTextField.getText().equals("") && !stawkaVatSprzedazyTextField.getText().equals("")){
+                StawkaVat stawkaVatSprzedazy = new StawkaVat(Integer.parseInt(stawkaVatSprzedazyTextField.getText()));
+                double cenaSprzedazybrutto = Double.parseDouble(cenaSprzedazyNettoTextField.getText())*stawkaVatSprzedazy.getStawkaVAT();
+                cenaSprzedazyBruttoLabel.setText("Cena Brutto sprzedazy: " + BigDecimal.valueOf(cenaSprzedazybrutto).setScale(2, RoundingMode.HALF_UP).doubleValue());
+            }
+    }
+
+    public void ustawCeneBruttoZakupu(){
+        if(cenaZakupuNettoTextField.getText()!=null && stawkaVatZakupuTextField.getText()!=null && !cenaZakupuNettoTextField.getText().equals("") && !stawkaVatZakupuTextField.getText().equals("")){
+            System.out.println("1");
+            StawkaVat stawkaVatZakupu = new StawkaVat(Integer.parseInt(stawkaVatZakupuTextField.getText()));
+            double cenaZakupubrutto = Double.parseDouble(cenaZakupuNettoTextField.getText())*stawkaVatZakupu.getStawkaVAT();
+            cenaZakupuBruttoLabel.setText("Cena Brutto zakupu: " + BigDecimal.valueOf(cenaZakupubrutto).setScale(2, RoundingMode.HALF_UP).doubleValue());
         }
     }
 

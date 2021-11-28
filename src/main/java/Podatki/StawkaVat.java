@@ -26,7 +26,7 @@ public class StawkaVat {
     }
 
     public static Double obliczanieCenyBrutto(Double cenaNetto, StawkaVat stawkaVat){
-        return cenaNetto+(cenaNetto* stawkaVat.stawkaVAT);
+        return cenaNetto+(cenaNetto* (stawkaVat.stawkaVAT/100));
     }
 
 
