@@ -444,4 +444,6 @@ public abstract class Faktura {
     }
 
 
+
+
 }

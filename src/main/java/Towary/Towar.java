@@ -32,6 +32,7 @@ public class Towar {
         this.stawkaVatSprzedazy = stawkaVatSprzedazy;
         this.cenaSprzedazyBrutto = StawkaVat.obliczanieCenyBrutto(cenaSprzedazyNetto, stawkaVatSprzedazy);
     }
+
     public Towar(){}
 
     public String getNazwa() {
@@ -225,6 +226,10 @@ public class Towar {
         }
 
         return index;
+    }
+
+    public void dodawnieDoBazyDanychZGUI(){
+        this.dodanieTowaruDoBazydanych();
     }
 
     @Override
