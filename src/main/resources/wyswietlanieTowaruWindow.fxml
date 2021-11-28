@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="WyswietlanieTowarowController">
+   <children>
+      <Label layoutX="14.0" layoutY="22.0" prefHeight="18.0" prefWidth="40.0" text="Towary" />
+      <TableView fx:id="towarTabelView" layoutY="105.0" prefHeight="295.0" prefWidth="600.0">
+         <columnResizePolicy><TableView fx:constant="CONSTRAINED_RESIZE_POLICY"/></columnResizePolicy>
+         <columns>
+            <TableColumn fx:id="nazwaColumn" prefWidth="75.0" text="nazwa" />
+            <TableColumn fx:id="jednostkaMiaryColumn" prefWidth="75.0" text="jm" />
+            <TableColumn prefWidth="162.39996337890625" text="Zakup">
+               <columns>
+                  <TableColumn fx:id="cenaNettoZakupuColumn" prefWidth="75.0" text="Cena netto" />
+                  <TableColumn fx:id="stawkaVatZakupuColumn" prefWidth="75.0" text="Stawka VAT" />
+                  <TableColumn fx:id="cenaBruttoZakupuColumn" prefWidth="75.0" text="Cena Brutto" />
+               </columns>
+            </TableColumn>
+            <TableColumn prefWidth="75.0" text="Sprzedaż">
+               <columns>
+                  <TableColumn fx:id="cenaSprzedazyNettoColumn" prefWidth="75.0" text="Cena netto" />
+                  <TableColumn fx:id="stawkaVatSprzedazyColumn" prefWidth="75.0" text="Stawka VAT" />
+                  <TableColumn fx:id="cenaBruttoSprzedazyColumn" prefWidth="75.0" text="Cena Brutto" />
+               </columns>
+            </TableColumn>
+         </columns>
+      </TableView>
+   </children>
+</AnchorPane>

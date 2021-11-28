@@ -15,11 +15,13 @@ import java.io.IOException;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 
-public class dodawanieProduktuController {
+public class DodawanieProduktuController {
 
     private Stage stage;
     private Scene scene;
     private Parent root;
+
+    //TODO zmienic stavkiVatTextField na choicePickery
 
 
     @FXML
@@ -105,7 +107,6 @@ public class dodawanieProduktuController {
 
     public void ustawCeneBruttoZakupu(){
         if(cenaZakupuNettoTextField.getText()!=null && stawkaVatZakupuTextField.getText()!=null && !cenaZakupuNettoTextField.getText().equals("") && !stawkaVatZakupuTextField.getText().equals("")){
-            System.out.println("1");
             StawkaVat stawkaVatZakupu = new StawkaVat(Integer.parseInt(stawkaVatZakupuTextField.getText()));
             double cenaZakupubrutto = Double.parseDouble(cenaZakupuNettoTextField.getText())*stawkaVatZakupu.getStawkaVAT();
             cenaZakupuBruttoLabel.setText("Cena Brutto zakupu: " + BigDecimal.valueOf(cenaZakupubrutto).setScale(2, RoundingMode.HALF_UP).doubleValue());

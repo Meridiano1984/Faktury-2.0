@@ -13,7 +13,6 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 
-import java.awt.*;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.Date;
@@ -53,22 +52,6 @@ public class Controller implements Initializable {
         System.out.println("Cotroller utworzony");
     }
 
-    //    public Controller() {
-////        fakturyTabelView.setItems(getFakturyToTabel());
-////        fakturyTabelView.setEditable(true);
-//
-//        nrFakturyIDColumn.setCellValueFactory(new PropertyValueFactory<>("numerFaktury"));
-//        kontrachentNameColumn.setCellValueFactory(new PropertyValueFactory<>("nazwaKontrachenta"));
-//        dataWystawianiaColumn.setCellValueFactory(new PropertyValueFactory<>("dataWystawienia"));
-//        wartoscNettoColumn.setCellValueFactory(new PropertyValueFactory<>("wartoscSprzedazyNetto"));
-//        wartoscBruttoColumn.setCellValueFactory(new PropertyValueFactory<>("wartoscSprzedazyBrutto"));
-//        wartoscPodatkuColumn.setCellValueFactory(new PropertyValueFactory<>("wartoscPodatku"));
-//        uwagiColumn.setCellValueFactory(new PropertyValueFactory<>("uwaga"));
-//
-//        fakturyTabelView.setItems(getFakturyToTabel());
-////        fakturyTabelView.getColumns().addAll(nrFakturyIDColumn,kontrachentNameColumn,dataWystawianiaColumn,wartoscNettoColumn,wartoscBruttoColumn,wartoscPodatkuColumn,uwagiColumn);
-//
-//    }
 
     public ObservableList<FakturaVAT> getFakturyToTabel(){
 
@@ -94,19 +77,25 @@ public class Controller implements Initializable {
                 fakturyTabelView.setItems(getFakturyToTabel());
     }
 
+    //TODO ZALAPAC TE WYJATKI
 
 
     public void dodajFakture(ActionEvent e) throws IOException {
 
-        dodawanieFakturyController controller2 = new dodawanieFakturyController();
+        DodawanieFakturyController controller2 = new DodawanieFakturyController();
         controller2.noweOkno();
     }
 
     public void dodajProdukt(ActionEvent e) throws IOException{
 
-        dodawanieProduktuController dodawanieProduktuController = new dodawanieProduktuController();
+        DodawanieProduktuController dodawanieProduktuController = new DodawanieProduktuController();
         dodawanieProduktuController.noweOkno();
 
+    }
+
+    public void wyswietlTowar(ActionEvent e) throws IOException{
+        WyswietlanieTowarowController wyswietlanieTowarowController = new WyswietlanieTowarowController();
+        wyswietlanieTowarowController.noweOkno(e);
     }
 
 }
