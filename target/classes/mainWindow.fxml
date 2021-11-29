@@ -20,6 +20,7 @@
       </TableView>
       <Button fx:id="dodajFaktureButton" layoutX="69.0" layoutY="61.0" mnemonicParsing="false" onAction="#dodajFakture" prefHeight="26.0" prefWidth="106.0" text="Dodaj Fakture" />
       <Button fx:id="nowyProduktButton" layoutX="245.0" layoutY="62.0" mnemonicParsing="false" onAction="#dodajProdukt" prefHeight="25.0" prefWidth="106.0" text="Dodaj Towar" />
-      <Button fx:id="wyswietlTowarButton" layoutX="248.0" layoutY="99.0" mnemonicParsing="false" onAction="#wyswietlTowar" prefHeight="26.0" prefWidth="106.0" text="Wyswietl Towar" />
+      <Button fx:id="wyswietlTowarButton" layoutX="244.0" layoutY="97.0" mnemonicParsing="false" onAction="#wyswietlTowar" prefHeight="26.0" prefWidth="106.0" text="Wyswietl Towar" />
+      <Button fx:id="dodajKontrachentaButton" layoutX="400.0" layoutY="62.0" mnemonicParsing="false" onAction="#dodajKontrachenta" text="Dodaj Kontrachenta" />
    </children>
 </AnchorPane>

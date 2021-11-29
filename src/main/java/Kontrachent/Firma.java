@@ -32,7 +32,7 @@ public abstract class Firma extends Kontrachent{
         this.nazwaFirmy = nazwaFirmy;
     }
 
-    protected static boolean sprawdzanieNIP (String NIP){
+    public static boolean sprawdzanieNIP (String NIP){
         if(NIP.matches("[0-9]+") && NIP.length()==10){
             return true;
         } else {
@@ -119,6 +119,8 @@ public abstract class Firma extends Kontrachent{
 
         return index;
     }
+
+
 
 
 

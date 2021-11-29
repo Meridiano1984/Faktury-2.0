@@ -63,7 +63,6 @@ public class WyswietlanieTowarowController implements Initializable {
         return ListaTowaru;
     }
 
-
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         nazwaColumn.setCellValueFactory(new PropertyValueFactory<>("nazwa"));
@@ -75,8 +74,10 @@ public class WyswietlanieTowarowController implements Initializable {
         stawkaVatSprzedazyColumn.setCellValueFactory(new PropertyValueFactory<>("stawkaVatSprzedazy"));
         cenaBruttoSprzedazyColumn.setCellValueFactory(new PropertyValueFactory<>("cenaSprzedazyBrutto"));
         towarTabelView.setItems(getTowarToTabel());
-//        towarTabelView.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
+    }
 
-
+    public void powrotDoMainWindow(ActionEvent e) throws IOException {
+        Controller controller = new Controller();
+        controller.noweOkno(e);
     }
 }

@@ -4,7 +4,9 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -52,6 +54,14 @@ public class Controller implements Initializable {
         System.out.println("Cotroller utworzony");
     }
 
+    public void noweOkno(ActionEvent e) throws IOException {
+        Parent root = FXMLLoader.load(getClass().getResource("mainWindow.fxml"));
+        stage = (Stage)((Node)e.getSource()).getScene().getWindow();
+        scene= new Scene(root);
+        stage.setScene(scene);
+        stage.show();
+    }
+
 
     public ObservableList<FakturaVAT> getFakturyToTabel(){
 
@@ -96,6 +106,11 @@ public class Controller implements Initializable {
     public void wyswietlTowar(ActionEvent e) throws IOException{
         WyswietlanieTowarowController wyswietlanieTowarowController = new WyswietlanieTowarowController();
         wyswietlanieTowarowController.noweOkno(e);
+    }
+
+    public void dodajKontrachenta() throws IOException{
+            DodawanieKontrachentaController dodawanieKontrachentaController = new DodawanieKontrachentaController();
+            dodawanieKontrachentaController.noweOkno();
     }
 
 }
