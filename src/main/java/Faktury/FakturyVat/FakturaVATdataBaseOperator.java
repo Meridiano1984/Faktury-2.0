@@ -56,27 +56,22 @@ public class FakturaVATdataBaseOperator {
 
 
 
-    private ArrayList<TowarNaFakturze> getTowarNaFakturze(int fakturaID){
-
+    public static ArrayList<TowarNaFakturze> getTowarNaFakturze(int fakturaID){
         ArrayList<TowarNaFakturze> towarNaFakturze =  new ArrayList<>();
-
-
-
-
 
 //        POBIERAMY PRODUKTY DO BAZYDANYCH
             ResultSet resultTowaryNaFakturze = QueryExecutor.executeSelect("SELECT * FROM produkty_na_fakturach_vat WHERE faktura_id=" + fakturaID + ";");
 
             try{
-                int     produktID;
-                ResultSet resultProducts;
-                int     ilosc;
-                String  nazwa;
-                String  jednostkaMiary1;
-                Double  cenaZakupuNetto;
-                int     stawkaVat;
-                Double  cenaSprzedazyNetto;
-                Double  cenaSprzedazyBrutto;
+                int         produktID;
+                ResultSet   resultProducts;
+                int         ilosc;
+                String      nazwa;
+                String      jednostkaMiary1;
+                Double      cenaZakupuNetto;
+                int         stawkaVat;
+                Double      cenaSprzedazyNetto;
+                Double      cenaSprzedazyBrutto;
 
 
                 while (resultTowaryNaFakturze.next()) {

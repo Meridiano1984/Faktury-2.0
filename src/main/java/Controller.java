@@ -14,6 +14,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -31,6 +32,7 @@ public class Controller implements Initializable {
     private Stage stage;
     private Scene scene;
     private Parent root;
+    public static FakturaVAT wybranaFaktura;
 
     @FXML
     private TableColumn<String,String> nrFakturyColumn;
@@ -50,6 +52,8 @@ public class Controller implements Initializable {
     private TableView<FakturaVAT> fakturyTabelView;
     @FXML
     private Button dodajFaktureButton;
+
+
 
     public Controller() {
         System.out.println("Cotroller utworzony");
@@ -117,6 +121,41 @@ public class Controller implements Initializable {
     public void wyswietlKontrachentow(ActionEvent e) throws IOException{
         WyswietlanieKontrachentowController wyswietlanieKontrachentowController = new WyswietlanieKontrachentowController();
         wyswietlanieKontrachentowController.noweOkno(e);
+    }
+
+    public void startEdit(){
+        System.out.println("1");
+    }
+    public void commitEdit(){
+        System.out.println("2");
+    }
+    public void cancelEdit(){
+        System.out.println("3");
+    }
+
+    @FXML
+    public void clickItem(MouseEvent event) throws IOException
+    {
+        if (event.getClickCount() == 2) //Checking double click
+        {
+            FakturaVAT fakturaVAT = fakturyTabelView.getSelectionModel().getSelectedItem();
+            wybranaFaktura = fakturyTabelView.getSelectionModel().getSelectedItem();
+//            System.out.println(fakturaVAT.toString());
+            WyswietlanieTowaruNaFakturzeController wyswietlanieTowaruNaFakturzeController = new WyswietlanieTowaruNaFakturzeController();
+            wyswietlanieTowaruNaFakturzeController.noweOkno();
+
+
+
+        }
+    }
+
+    public void dostanieFaktury(){
+
+    }
+
+
+    public void wyjscie(){
+        System.exit(0);
     }
 
 }

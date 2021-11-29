@@ -21,4 +21,7 @@ public class FakturaVAT extends Faktura {
         FakturaVATdataBaseOperator fakturaVATdataBaseOperator = new FakturaVATdataBaseOperator();
         fakturaVATdataBaseOperator.wyswietlanieFakturyVATzDB();
     }
+
+
+
 }

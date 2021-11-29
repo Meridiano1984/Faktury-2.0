@@ -33,6 +33,13 @@ public class Towar {
         this.cenaSprzedazyBrutto = StawkaVat.obliczanieCenyBrutto(cenaSprzedazyNetto, stawkaVatSprzedazy);
     }
 
+    public String getCenaSprzedazyNettoString(){
+        return Double.toString(cenaSprzedazyNetto);
+    }
+    public String getcenaSprzedazyBruttoString(){
+        return Double.toString(cenaSprzedazyBrutto);
+    }
+
     public Towar(){}
 
 

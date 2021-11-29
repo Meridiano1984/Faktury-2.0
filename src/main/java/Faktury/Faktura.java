@@ -342,12 +342,14 @@ public abstract class Faktura {
     }
 
     public int getIndexFromDataBase(Faktura faktura){
+        System.out.println("nr faktury: " + faktura.getNumerFaktury());
         int index=0;
 
         ResultSet resultSet = QueryExecutor.executeSelect("SELECT * FROM faktury WHERE nr_faktury='"+faktura.getNumerFaktury()+"';");
         try {
             resultSet.next();
             index = resultSet.getInt("faktura_id");
+            System.out.println("indek: " + index);
         }catch (SQLException e){
             e.printStackTrace();
         }
@@ -435,13 +437,20 @@ public abstract class Faktura {
             }
         }
 
-        System.out.println("\n---UWAGA---");
-        System.out.println(this.getUwaga());
-        System.out.println("-----------");
+        String uwaga = """
+                \n---UWAGA---
+                """ +this.getUwaga()+
+                """
+                \n-----------
+                """;
+
+//        System.out.println("\n---UWAGA---");
+//        System.out.println(this.getUwaga());
+//        System.out.println("-----------");
 
         String podsumowanie = "\n\nNETTO W SUMIE: " + this.wartoscSprzedazyNetto + " \nBRUTTO W SUMIE: " + this.wartoscSprzedazyBrutto;
 
-        return naglowek+produkty+podsumowanie;
+        return naglowek+produkty+podsumowanie+uwaga;
     }
 
 

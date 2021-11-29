@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="865.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="WyswietlanieTowaruNaFakturzeController">
+   <children>
+      <Label layoutX="100.0" layoutY="51.0" />
+      <TableView fx:id="towaryNaFakturzeTabelView" layoutY="194.0" prefHeight="206.0" prefWidth="834.0">
+         <columns>
+            <TableColumn fx:id="towarColumn" prefWidth="-1.0" text="Towar">
+               <columns>
+                  <TableColumn fx:id="nazwaColumn" prefWidth="75.0" text="Nazwa" />
+                  <TableColumn fx:id="jednostkaMirayColumn" prefWidth="46.39996337890625" resizable="false" text="Jm." />
+               </columns>
+            </TableColumn>
+            <TableColumn fx:id="cenaNettoColumn" prefWidth="124.0" text="cena netto" />
+            <TableColumn fx:id="stawkaVatColumn" prefWidth="75.0" text="stawka VAT" />
+            <TableColumn fx:id="cenaBruttoColumn" prefWidth="75.0" text="cena brutto" />
+            <TableColumn fx:id="iloscColumn" prefWidth="75.0" text="ilosc" />
+            <TableColumn fx:id="cenaCalkowitaColumn" prefWidth="127.99993896484375" text="cena całkowita netto" />
+            <TableColumn fx:id="cenaCalkowitaBruttoColumn" prefWidth="132.0" text="cena całkowita brutto" />
+            <TableColumn fx:id="wartoscPodatkuColumn" prefWidth="102.0" text="wartosc podatku" />
+         </columns>
+      </TableView>
+      <Button layoutX="699.0" mnemonicParsing="false" onAction="#powrotDoMainWindow" text="Powrót" />
+   </children>
+</AnchorPane>

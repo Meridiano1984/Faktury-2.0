@@ -1,14 +1,15 @@
 //import ApplicationInterface.ComendUserInterface;
 //import ApplicationInterface.GuiControler;
 //import DataBase.DatabaseInitialization;
+import ApplicationInterface.ComendUserInterface;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
-//import java.time.LocalDate;
-//import java.util.*;
+import java.time.LocalDate;
+import java.util.*;
 
 //public class Main {
 //
@@ -24,6 +25,8 @@ import javafx.stage.Stage;
 //
 //    }
 //}
+
+
 public class Main extends Application {
 
     @Override
