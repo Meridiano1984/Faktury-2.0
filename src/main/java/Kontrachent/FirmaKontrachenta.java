@@ -5,6 +5,8 @@ import DataStructure.Adres;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class FirmaKontrachenta extends Firma {
 
@@ -52,6 +54,30 @@ public class FirmaKontrachenta extends Firma {
 
     public void dodawnieDoBazyDanychZGUI(){
         this.dodanieKontrachentaDoBazydanych();
+    }
+
+    public static ArrayList<FirmaKontrachenta> getFromDataBase(){
+
+        ArrayList<FirmaKontrachenta> listaKontrachentow = new ArrayList<>();
+        ResultSet resultSet = QueryExecutor.executeSelect("SELECT * FROM kontrachenci;");
+        String nazwa,NIP,kraj,miasto,ulica,budynek;
+
+        try{
+            while (resultSet.next()){
+                nazwa = resultSet.getString("kontrachent_name");
+                NIP = resultSet.getString("nip");
+                kraj= resultSet.getString("adres_kraj");
+                miasto= resultSet.getString("adres_miasto");
+                ulica= resultSet.getString("adres_ulica");
+                budynek = resultSet.getString("adres_nr_budynku");
+
+                listaKontrachentow.add(new FirmaKontrachenta(nazwa,new Adres(kraj,miasto,ulica,budynek),NIP));
+            }
+        }catch (SQLException e){
+            e.printStackTrace();
+        }
+
+        return listaKontrachentow;
     }
 
     @Override

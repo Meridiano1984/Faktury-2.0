@@ -1,5 +1,6 @@
 import Faktury.Faktura;
 import Faktury.FakturyVat.FakturaVAT;
+import javafx.beans.binding.Bindings;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -34,7 +35,7 @@ public class Controller implements Initializable {
     @FXML
     private TableColumn<String,String> nrFakturyColumn;
     @FXML
-    private TableColumn<String, String> kontrachentNameColumn;
+    private TableColumn<FakturaVAT, String> kontrachentNameColumn;
     @FXML
     private TableColumn<String, Date> dataWystawianiaColumn;
     @FXML
@@ -78,7 +79,7 @@ public class Controller implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
                 //TODO JAK ZROBIC BY TO NIE WLACZAO SIE PODCZAS ZMIANY OKNA
                 nrFakturyColumn.setCellValueFactory(new PropertyValueFactory<>("numerFaktury"));
-                kontrachentNameColumn.setCellValueFactory(new PropertyValueFactory<>("nazwaKontrachenta"));
+                kontrachentNameColumn.setCellValueFactory(cell-> Bindings.selectString(cell.getValue().getKontrachent(),"nazwaFirmy"));
                 dataWystawianiaColumn.setCellValueFactory(new PropertyValueFactory<>("dataWystawienia"));
                 wartoscNettoColumn.setCellValueFactory(new PropertyValueFactory<>("wartoscSprzedazyNetto"));
                 wartoscBruttoColumn.setCellValueFactory(new PropertyValueFactory<>("wartoscSprzedazyBrutto"));
@@ -111,6 +112,11 @@ public class Controller implements Initializable {
     public void dodajKontrachenta() throws IOException{
             DodawanieKontrachentaController dodawanieKontrachentaController = new DodawanieKontrachentaController();
             dodawanieKontrachentaController.noweOkno();
+    }
+
+    public void wyswietlKontrachentow(ActionEvent e) throws IOException{
+        WyswietlanieKontrachentowController wyswietlanieKontrachentowController = new WyswietlanieKontrachentowController();
+        wyswietlanieKontrachentowController.noweOkno(e);
     }
 
 }

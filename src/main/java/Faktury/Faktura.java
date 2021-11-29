@@ -383,6 +383,7 @@ public abstract class Faktura {
     }
 
     public static ArrayList<FakturaVAT> getAllFakturFromDBToTabel(){
+        //TODO ZMIENIC TA FUNKCJE BO JEST W TABELI WYSWIETLANE JUZ INACZEJ I USUNAC POLE U KONTRACHENTA
         ArrayList<FakturaVAT> listaFaktur = new ArrayList();
 
         int kontrachentID;
