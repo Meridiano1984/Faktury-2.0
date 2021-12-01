@@ -5,6 +5,7 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
@@ -20,7 +21,7 @@
             <Font size="15.0" />
          </font>
       </Label>
-      <TableView fx:id="wybranieKontrachentaTabelView" layoutX="14.0" layoutY="101.0" prefHeight="200.0" prefWidth="311.0">
+      <TableView fx:id="wybranieKontrachentaTabelView" layoutX="14.0" layoutY="101.0" onMouseClicked="#getKontrachentFromTabelView" prefHeight="200.0" prefWidth="311.0">
          <columns>
             <TableColumn fx:id="nazwaKontrachentaColumn" prefWidth="155.99996662139893" text="nazwa" />
             <TableColumn fx:id="nipColumn" prefWidth="153.6000518798828" text="NIP" />
@@ -31,7 +32,7 @@
             <Font size="15.0" />
          </font>
       </Label>
-      <DatePicker fx:id="wybierzDateDatePicker" layoutX="203.0" layoutY="323.0" prefHeight="26.0" prefWidth="121.0" promptText="YYYY-MM-DD" />
+      <DatePicker fx:id="wybierzDateDatePicker" layoutX="203.0" layoutY="323.0" onAction="#getDateFromDatePicker" prefHeight="26.0" prefWidth="121.0" promptText="YYYY-MM-DD" />
       <Label layoutX="331.0" layoutY="62.0" text="Wybierz Produkty:">
          <font>
             <Font size="15.0" />
@@ -64,7 +65,7 @@
             <Font size="25.0" />
          </font>
       </Button>
-      <TableView fx:id="wyborTowaruTabelView" layoutX="340.0" layoutY="101.0" prefHeight="200.0" prefWidth="602.0">
+      <TableView fx:id="wyborTowaruTabelView" layoutX="340.0" layoutY="101.0" onMouseClicked="#getTowarFromTabelView" prefHeight="200.0" prefWidth="602.0">
          <columnResizePolicy>
             <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
          </columnResizePolicy>
@@ -87,7 +88,7 @@
             </TableColumn>
          </columns>
       </TableView>
-      <TableView fx:id="wybraneProduktyTabeView" layoutX="14.0" layoutY="397.0" prefHeight="200.0" prefWidth="730.0">
+      <TableView fx:id="wybraneProduktyTabelView" layoutX="14.0" layoutY="397.0" prefHeight="200.0" prefWidth="730.0">
          <columns>
             <TableColumn fx:id="nazwaDodanychTowarowColumn" prefWidth="75.0" text="nazwa" />
             <TableColumn fx:id="iloscDodanychTowarowColumn" prefWidth="75.0" text="ilość" />
@@ -99,5 +100,11 @@
             <TableColumn fx:id="wartoscPodatkuDodanychTowarowColumn" prefWidth="110.39999999999998" text="wartość Podatku" />
          </columns>
       </TableView>
+      <Label layoutX="340.0" layoutY="349.0" prefHeight="21.0" prefWidth="37.0" text="Ilosc:">
+         <font>
+            <Font size="15.0" />
+         </font>
+      </Label>
+      <TextField fx:id="iloscTextField" layoutX="378.0" layoutY="347.0" onAction="#getIlosc" prefHeight="25.0" prefWidth="91.0" />
    </children>
 </AnchorPane>
