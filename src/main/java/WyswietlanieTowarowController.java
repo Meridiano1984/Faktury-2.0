@@ -2,6 +2,9 @@ import DataStructure.JednostkiMiary;
 import Faktury.FakturyVat.FakturaVAT;
 import Podatki.StawkaVat;
 import Towary.Towar;
+import javafx.beans.binding.Bindings;
+import javafx.beans.property.SimpleObjectProperty;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -15,6 +18,7 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
+import javafx.util.Callback;
 
 import java.io.IOException;
 import java.net.URL;
@@ -30,21 +34,21 @@ public class WyswietlanieTowarowController implements Initializable {
     @FXML
     private TableView<Towar> towarTabelView;
     @FXML
-    private TableColumn<String,String> nazwaColumn;
+    private TableColumn<Towar,String> nazwaColumn;
     @FXML
-    private TableColumn<String, JednostkiMiary> jednostkaMiaryColumn;
+    private TableColumn<Towar, JednostkiMiary> jednostkaMiaryColumn;
     @FXML
-    private TableColumn<String,Double> cenaNettoZakupuColumn;
+    private TableColumn<Towar,Double> cenaNettoZakupuColumn;
     @FXML
-    private TableColumn<String,Double> stawkaVatZakupuColumn;
+    private TableColumn<Towar,Double> stawkaVatZakupuColumn;
     @FXML
-    private TableColumn<String, StawkaVat> cenaBruttoZakupuColumn;
+    private TableColumn<Towar, StawkaVat> cenaBruttoZakupuColumn;
     @FXML
-    private TableColumn<String,Double> cenaSprzedazyNettoColumn;
+    private TableColumn<Towar,Double> cenaSprzedazyNettoColumn;
     @FXML
-    private TableColumn<String,Double> stawkaVatSprzedazyColumn;
+    private TableColumn<Towar,Double> stawkaVatSprzedazyColumn;
     @FXML
-    private TableColumn<String,Integer> cenaBruttoSprzedazyColumn;
+    private TableColumn<Towar,Integer> cenaBruttoSprzedazyColumn;
 
     public void noweOkno(ActionEvent e) throws IOException {
         Parent root = FXMLLoader.load(getClass().getResource("wyswietlanieTowaruWindow.fxml"));
@@ -68,10 +72,21 @@ public class WyswietlanieTowarowController implements Initializable {
         nazwaColumn.setCellValueFactory(new PropertyValueFactory<>("nazwa"));
         jednostkaMiaryColumn.setCellValueFactory(new PropertyValueFactory<>("jednostkiMiary"));
         cenaNettoZakupuColumn.setCellValueFactory(new PropertyValueFactory<>("cenaZakupuNetto"));
-        stawkaVatZakupuColumn.setCellValueFactory(new PropertyValueFactory<>("stawkaVatZakupu"));
+//        stawkaVatZakupuColumn.setCellValueFactory(new PropertyValueFactory<>("stawkaVatZakupu"));
+        stawkaVatZakupuColumn.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<Towar, Double>, ObservableValue<Double>>() {
+            @Override
+            public ObservableValue<Double> call(TableColumn.CellDataFeatures<Towar, Double> towarDoubleCellDataFeatures) {
+                return new SimpleObjectProperty<>(towarDoubleCellDataFeatures.getValue().getStawkaVatZakupu().getStawkaVAT()) ;
+            }
+        });
         cenaBruttoZakupuColumn.setCellValueFactory(new PropertyValueFactory<>("cenaZakupuBrutto"));
         cenaSprzedazyNettoColumn.setCellValueFactory(new PropertyValueFactory<>("cenaSprzedazyNetto"));
-        stawkaVatSprzedazyColumn.setCellValueFactory(new PropertyValueFactory<>("stawkaVatSprzedazy"));
+        stawkaVatSprzedazyColumn.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<Towar, Double>, ObservableValue<Double>>() {
+            @Override
+            public ObservableValue<Double> call(TableColumn.CellDataFeatures<Towar, Double> towarDoubleCellDataFeatures) {
+                return new SimpleObjectProperty<>(towarDoubleCellDataFeatures.getValue().getStawkaVatSprzedazy().getStawkaVAT());
+            }
+        });
         cenaBruttoSprzedazyColumn.setCellValueFactory(new PropertyValueFactory<>("cenaSprzedazyBrutto"));
         towarTabelView.setItems(getTowarToTabel());
     }

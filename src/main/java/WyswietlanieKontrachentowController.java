@@ -52,7 +52,7 @@ public class WyswietlanieKontrachentowController implements Initializable {
         stage.show();
     }
 
-    public ObservableList<FirmaKontrachenta> getKontrachentToTable(){
+    private ObservableList<FirmaKontrachenta> getKontrachentToTable(){
         ObservableList<FirmaKontrachenta> ListaKontrachentow= FXCollections.observableArrayList();
         ArrayList<FirmaKontrachenta> kontracjentArrayList = FirmaKontrachenta.getFromDataBase();
         for(FirmaKontrachenta kontrachent : kontracjentArrayList){

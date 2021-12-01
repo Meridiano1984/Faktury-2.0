@@ -136,23 +136,14 @@ public class Controller implements Initializable {
     @FXML
     public void clickItem(MouseEvent event) throws IOException
     {
-        if (event.getClickCount() == 2) //Checking double click
+        if (event.getClickCount() == 2)             //Checking double click
         {
             FakturaVAT fakturaVAT = fakturyTabelView.getSelectionModel().getSelectedItem();
             wybranaFaktura = fakturyTabelView.getSelectionModel().getSelectedItem();
-//            System.out.println(fakturaVAT.toString());
             WyswietlanieTowaruNaFakturzeController wyswietlanieTowaruNaFakturzeController = new WyswietlanieTowaruNaFakturzeController();
             wyswietlanieTowaruNaFakturzeController.noweOkno();
-
-
-
         }
     }
-
-    public void dostanieFaktury(){
-
-    }
-
 
     public void wyjscie(){
         System.exit(0);

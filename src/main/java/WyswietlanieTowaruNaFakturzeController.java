@@ -1,14 +1,10 @@
 import Faktury.FakturyVat.FakturaVAT;
 import Faktury.FakturyVat.FakturaVATdataBaseOperator;
-import Towary.Towar;
 import Towary.TowarNaFakturze;
-import javafx.beans.InvalidationListener;
 import javafx.beans.binding.Bindings;
-import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
-import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -16,14 +12,12 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 import javafx.util.Callback;
 
-import javax.swing.text.TabableView;
 import java.io.IOException;
 import java.net.URL;
 import java.util.*;
@@ -31,7 +25,7 @@ import java.util.*;
 public class WyswietlanieTowaruNaFakturzeController implements Initializable {
 
     //tutaj dostajemy tylko z listy
-    private Stage stage;
+    private static Stage stage;
     private Scene scene;
     private Parent root;
     private FakturaVAT fakturaVAT;
@@ -57,23 +51,31 @@ public class WyswietlanieTowaruNaFakturzeController implements Initializable {
     @FXML
     private TableColumn<TowarNaFakturze, Double>wartoscPodatkuColumn;
 
-
+    public WyswietlanieTowaruNaFakturzeController()  {
+        System.out.println("jebac bydgoszcz");
+    }
 
     public void noweOkno() throws IOException {      ;
         ObservableList<TowarNaFakturze> listaTowarowNaFakturze = getTowarToTabel();
-        Parent root = FXMLLoader.load(getClass().getResource("wyswietlanieTowaruNaFakturzeWindow.fxml"));
-        Stage newStage = new Stage();
-        newStage.setTitle("Tytul");
-        newStage.setScene(new Scene(root));
-        newStage.show();
-        System.out.println("2");
-        System.out.println("---");
+        this.root = FXMLLoader.load(getClass().getResource("wyswietlanieTowaruNaFakturzeWindow.fxml"));
+        this.stage = new Stage();
+        stage.setTitle("Tytul");
+        this.scene = new Scene(root);
+        stage.setScene(scene);
+        stage.show();
+        if(this.stage==null){
+            System.out.println("to jebany null  1");
+        }
     }
 
     public void powrotDoMainWindow(ActionEvent e) throws IOException {
-        //TODO ZMIENIC FUNKCJE TEGO PRZYCISKU DODAJE NOWE MAIN OKNA
-        Controller controller = new Controller();
-        controller.noweOkno(e);
+
+
+        //TODO ZMIENIC FUNKCJE TEGO PRZYCISKU DODAJE NOWE MAIN OKNA bo dalem static i to jest zle jak dziala wywolywanie argumentow z Fxml
+        if(this.stage==null){
+            System.out.println("to jebany null");
+        }
+        this.stage.hide();
     }
 
     private ObservableList<TowarNaFakturze> getTowarToTabel(){
