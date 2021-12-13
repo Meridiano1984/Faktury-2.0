@@ -20,5 +20,6 @@ public class DbConnector {
             System.out.println("Polaczenie nie powoiodlo sie na poziomie Connectora");
         }
         return connection;
+
     }
 }
