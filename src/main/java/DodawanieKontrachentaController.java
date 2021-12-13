@@ -57,10 +57,11 @@ public class DodawanieKontrachentaController {
         try{
             //TODO SPRAWDZAC ROZMIAR NAZW ZGODNIE Z BAZA DANYCH
             Exception exception = new Exception();
-            if(!(nazwa.equals("") || nip.equals("") || kraj.equals("") || miasto.equals("") || budynek.equals("") || ulica.equals("")))throw exception;
-            if(!Firma.sprawdzanieNIP(nip)) throw exception;
+            if((nazwa.equals("") || nip.equals("") || kraj.equals("") || miasto.equals("") || budynek.equals("") || ulica.equals(""))) throw exception;
+            if(!Firma.sprawdzanieNIP(nip))throw exception;
             return  true;
         }catch (Exception e){
+            e.printStackTrace();
             return false;
         }
     }

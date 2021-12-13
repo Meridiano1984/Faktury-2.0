@@ -6,6 +6,8 @@ import Kontrachent.FirmaKontrachenta;
 import Kontrachent.Kontrachent;
 import Kontrachent.Firma;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -22,8 +24,8 @@ public class TowarNaFakturze {
         this.towar = towar;
         this.ilosc = ilosc;
         this.wartoscNetto = obliczanieWartosciNettoTowaru(towar,ilosc);
-        this.wartoscVAT = obliczanieWartosciVAT(towar,ilosc);
         this.wartoscBrutto = obliczanieWartosciBrutto(towar,ilosc);
+        this.wartoscVAT = obliczenieStawkiVAT();
     }
 
     public double getWartoscNetto() {
@@ -35,7 +37,7 @@ public class TowarNaFakturze {
     }
 
     public double getWartoscVAT() {
-        return wartoscVAT;
+        return BigDecimal.valueOf(wartoscVAT).setScale(2, RoundingMode.HALF_UP).doubleValue();
     }
 
     public void setWartoscVAT(double wartoscVAT) {
@@ -65,7 +67,6 @@ public class TowarNaFakturze {
     public void setIlosc(int ilosc) {
         this.ilosc = ilosc;
     }
-
 
     private double obliczanieWartosciNettoTowaru(Towar towar, int ilosc){
         return towar.getCenaSprzedazyNetto()*ilosc;

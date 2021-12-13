@@ -100,7 +100,7 @@ public class DodawanieProduktuController {
     public void ustawCeneBruttoSprzedazy(){
             if(cenaSprzedazyNettoTextField.getText()!=null && stawkaVatSprzedazyTextField.getText()!=null && !cenaSprzedazyNettoTextField.getText().equals("") && !stawkaVatSprzedazyTextField.getText().equals("")){
                 StawkaVat stawkaVatSprzedazy = new StawkaVat(Integer.parseInt(stawkaVatSprzedazyTextField.getText()));
-                double cenaSprzedazybrutto = Double.parseDouble(cenaSprzedazyNettoTextField.getText())*stawkaVatSprzedazy.getStawkaVAT();
+                double cenaSprzedazybrutto = Double.parseDouble(cenaSprzedazyNettoTextField.getText())*(stawkaVatSprzedazy.getStawkaVAT()+1.00);
                 cenaSprzedazyBruttoLabel.setText("Cena Brutto sprzedazy: " + BigDecimal.valueOf(cenaSprzedazybrutto).setScale(2, RoundingMode.HALF_UP).doubleValue());
             }
     }
@@ -108,8 +108,9 @@ public class DodawanieProduktuController {
     public void ustawCeneBruttoZakupu(){
         if(cenaZakupuNettoTextField.getText()!=null && stawkaVatZakupuTextField.getText()!=null && !cenaZakupuNettoTextField.getText().equals("") && !stawkaVatZakupuTextField.getText().equals("")){
             StawkaVat stawkaVatZakupu = new StawkaVat(Integer.parseInt(stawkaVatZakupuTextField.getText()));
-            double cenaZakupubrutto = Double.parseDouble(cenaZakupuNettoTextField.getText())*stawkaVatZakupu.getStawkaVAT();
+            double cenaZakupubrutto=Double.parseDouble(cenaZakupuNettoTextField.getText())*(stawkaVatZakupu.getStawkaVAT()+1.00);
             cenaZakupuBruttoLabel.setText("Cena Brutto zakupu: " + BigDecimal.valueOf(cenaZakupubrutto).setScale(2, RoundingMode.HALF_UP).doubleValue());
+
         }
     }
 

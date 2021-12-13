@@ -1,6 +1,7 @@
+import Faktury.Faktura;
 import Faktury.FakturyVat.FakturaVAT;
-import Kontrachent.Firma;
 import Kontrachent.FirmaKontrachenta;
+import Kontrachent.MojaFirma;
 import Towary.Towar;
 import Towary.TowarNaFakturze;
 import javafx.beans.property.SimpleObjectProperty;
@@ -20,10 +21,11 @@ import javafx.stage.Stage;
 import javafx.util.Callback;
 
 import java.io.IOException;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.net.URL;
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.ResourceBundle;
 
 public class DodawanieFakturyController implements Initializable {
@@ -36,7 +38,7 @@ public class DodawanieFakturyController implements Initializable {
     private static FirmaKontrachenta wybranyKontrachent;
     private static Towar wybranyTowar;
     private static Integer ilosc;
-    private static ArrayList<TowarNaFakturze> wybranyTowarNaFakturze = new ArrayList<>();
+    private  ArrayList<TowarNaFakturze> wybranyTowarNaFakturzeArrayList=new ArrayList<>();
 
     @FXML
     private TableView<FirmaKontrachenta> wybranieKontrachentaTabelView;
@@ -100,15 +102,15 @@ public class DodawanieFakturyController implements Initializable {
     private TextField iloscTextField;
 
     public DodawanieFakturyController() {
-        System.out.println("został utworzony konstruktoer");
+        System.out.println("KONSTRUKTOR KONSTRUKTOR KONSTRUKTOR");
     }
 
-    public void noweOkno() throws IOException {
+    public void noweOkno(ActionEvent e) throws IOException {
         Parent root = FXMLLoader.load(getClass().getResource("dodawanieFakturyWindow.fxml"));
-        Stage newStage = new Stage();
-        newStage.setTitle("Tytul");
-        newStage.setScene(new Scene(root));
-        newStage.show();
+        stage = (Stage)((Node)e.getSource()).getScene().getWindow();
+        scene= new Scene(root);
+        stage.setScene(scene);
+        stage.show();
     }
 
     private ObservableList<FirmaKontrachenta> getKontrachentToTable() {
@@ -131,7 +133,7 @@ public class DodawanieFakturyController implements Initializable {
 
     private ObservableList<TowarNaFakturze> getTowarNaFakturzeToTabel(){
         ObservableList<TowarNaFakturze> towarNaFakturzeObservableList = FXCollections.observableArrayList();
-        for(TowarNaFakturze towarNaFakturze:wybranyTowarNaFakturze ){
+        for(TowarNaFakturze towarNaFakturze: wybranyTowarNaFakturzeArrayList){
             towarNaFakturzeObservableList.add(towarNaFakturze);
         }
         return towarNaFakturzeObservableList;
@@ -139,10 +141,8 @@ public class DodawanieFakturyController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-
         setKontrachentToTabel();
         setTowarToTabel();
-
     }
 
     private void setKontrachentToTabel() {
@@ -224,21 +224,18 @@ public class DodawanieFakturyController implements Initializable {
 
     public void getDateFromDatePicker(ActionEvent event){
         dataWystawieniaFaktury=wybierzDateDatePicker.getValue();
-        System.out.println(dataWystawieniaFaktury);
     }
 
     public void getKontrachentFromTabelView(MouseEvent event){
         if (event.getClickCount() == 2)             //Checking double click
         {
-            FirmaKontrachenta firmaKontrachenta = wybranieKontrachentaTabelView.getSelectionModel().getSelectedItem();
-            System.out.println(firmaKontrachenta.toString());
+            wybranyKontrachent = wybranieKontrachentaTabelView.getSelectionModel().getSelectedItem();
         }
     }
 
     public void getTowarFromTabelView(MouseEvent event){
         if(event.getClickCount()==2){               //Checking double click
             wybranyTowar= wyborTowaruTabelView.getSelectionModel().getSelectedItem();
-            System.out.println(wybranyTowar.toString());
             setWybranyTowar();
             setWybranyTowarToTabel();
         }
@@ -255,9 +252,13 @@ public class DodawanieFakturyController implements Initializable {
 
     private void setWybranyTowarToTabel(){
         if(wybranyTowar!=null && ilosc!=null && !iloscTextField.getText().equals("")){
-            wybranyTowarNaFakturze.add(new TowarNaFakturze(wybranyTowar,ilosc));
+            wybranyTowarNaFakturzeArrayList.add(new TowarNaFakturze(wybranyTowar,ilosc));
             setWybranieKontrachentaTabelView();
             iloscTextField.setText("");
+
+            for(TowarNaFakturze towr : wybranyTowarNaFakturzeArrayList){
+                System.out.println("Towr: " + towr.getTowar().getNazwa()+ "  ilosc: " + towr.getIlosc() );
+            }
         }
     }
 
@@ -320,6 +321,60 @@ public class DodawanieFakturyController implements Initializable {
         });
 
         wybraneProduktyTabelView.setItems(getTowarNaFakturzeToTabel());
+
+        setWartoscCalkowitaNettoLabel();
+        setWartoscCalkowitaBruttoLabel();
+        setWartoscPodatkuLabel();
+    }
+
+    public void setWartoscCalkowitaNettoLabel(){
+        double suma=0;
+        for(TowarNaFakturze towarNaFakturze: wybranyTowarNaFakturzeArrayList){
+            suma=suma+towarNaFakturze.getWartoscNetto();
+        }
+        wartoscCalkowitaNettoLabel.setText("Wartość całkowita Netto: "+ BigDecimal.valueOf(suma).setScale(2, RoundingMode.HALF_UP).doubleValue());
+    }
+
+    public void setWartoscCalkowitaBruttoLabel(){
+        double suma=0;
+        for(TowarNaFakturze towarNaFakturze: wybranyTowarNaFakturzeArrayList){
+            suma=suma+towarNaFakturze.getWartoscBrutto();
+        }
+        wartoscCalkowitaBruttoLabel.setText("Wartość całkowita Brutto: "+BigDecimal.valueOf(suma).setScale(2, RoundingMode.HALF_UP).doubleValue());
+    }
+
+    public void setWartoscPodatkuLabel(){
+        double suma=0;
+        for(TowarNaFakturze towarNaFakturze: wybranyTowarNaFakturzeArrayList){
+            suma =suma+ towarNaFakturze.getWartoscVAT();
+        }
+        wartoscCalkowitaPodatkuLabel.setText("Wartość całkowita Podatku: "+BigDecimal.valueOf(suma).setScale(2, RoundingMode.HALF_UP).doubleValue());
+    }
+
+    public void dodawanieNowejFaktury(){
+        Faktura fakturaVAT = new FakturaVAT(dataWystawieniaFaktury, MojaFirma.getInstance(),wybranyKontrachent,wybranyTowarNaFakturzeArrayList);
+        fakturaVAT.dodanieFakturyDoBazydanych();
+    }
+
+    public void powrot(ActionEvent e) throws IOException {
+        Controller controller = new Controller();
+        controller.noweOkno(e);
+    }
+
+    public void odswiez(){
+        setKontrachentToTabel();
+        setTowarToTabel();
+        setWybranieKontrachentaTabelView();
+    }
+
+    public void dodanieNowegoProduktu() throws  IOException{
+        DodawanieProduktuController dodawanieProduktuController = new DodawanieProduktuController();
+        dodawanieProduktuController.noweOkno();
+    }
+
+    public void dodanieNowegoKontrachenta() throws IOException{
+        DodawanieKontrachentaController dodawanieKontrachentaController = new DodawanieKontrachentaController();
+        dodawanieKontrachentaController.noweOkno();
     }
 
 }

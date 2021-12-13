@@ -277,7 +277,7 @@ public abstract class Faktura {
         return towaryNaFakturze;
     }
 
-    private void dodanieFakturyDoBazydanych(){
+    public void dodanieFakturyDoBazydanych(){
         Date date = Date.valueOf(this.dataWystawienia);
         Firma kontrachent = (Firma) this.kontrachent;
         QueryExecutor.executeQuery("INSERT INTO faktury (typ_faktury,nr_faktury,data_wystawienia,kontrachent_id,wartosc_sprzedazy_netto,wartosc_sprzedazy_brutto,wartosc_calkowita_podatku,uwagi) " +
@@ -291,8 +291,8 @@ public abstract class Faktura {
             int i = 0;
             for (TowarNaFakturze towarNaFakturze : this.listaTowarow) {
                 try {
-                    QueryExecutor.executeQuery("INSERT INTO produkty_na_fakturach_vat VALUES("+this.getIndexFromDataBase(Faktura.this)+","+towarNaFakturze.getTowar().getIndexFromDataBase(towarNaFakturze.getTowar())+","+towarNaFakturze.getIlosc()+",0,0,0);");
-                    System.out.println("INSERT INTO produkty_na_fakturach_vat VALUES(" + this.getIndexFromDataBase(Faktura.this) + "," + towarNaFakturze.getTowar().getIndexFromDataBase(towarNaFakturze.getTowar()) + "," + towarNaFakturze.getIlosc() + "," + this.obliczanieWartosciNetto(this.listaTowarow.get(i)) + "," + this.obliczanieWartosciBrutto(this.listaTowarow.get(i)) + "," + this.obliczenieStawkiVAT(this.listaTowarow.get(i)) + ");");
+//                    QueryExecutor.executeQuery("INSERT INTO produkty_na_fakturach_vat VALUES("+this.getIndexFromDataBase(Faktura.this)+","+towarNaFakturze.getTowar().getIndexFromDataBase(towarNaFakturze.getTowar())+","+towarNaFakturze.getIlosc()+",0,0,0);");
+//                    System.out.println("INSERT INTO produkty_na_fakturach_vat VALUES(" + this.getIndexFromDataBase(Faktura.this) + "," + towarNaFakturze.getTowar().getIndexFromDataBase(towarNaFakturze.getTowar()) + "," + towarNaFakturze.getIlosc() + "," + this.obliczanieWartosciNetto(this.listaTowarow.get(i)) + "," + this.obliczanieWartosciBrutto(this.listaTowarow.get(i)) + "," + this.obliczenieStawkiVAT(this.listaTowarow.get(i)) + ");");
                     QueryExecutor.executeQuery("INSERT INTO produkty_na_fakturach_vat VALUES(" + this.getIndexFromDataBase(Faktura.this) + "," + towarNaFakturze.getTowar().getIndexFromDataBase(towarNaFakturze.getTowar()) + "," + towarNaFakturze.getIlosc() + "," + this.obliczanieWartosciNetto(this.listaTowarow.get(i)) + "," + this.obliczanieWartosciBrutto(this.listaTowarow.get(i)) + "," + this.obliczenieStawkiVAT(this.listaTowarow.get(i)) + ");");
                     i++;
                 }catch (RuntimeException e){

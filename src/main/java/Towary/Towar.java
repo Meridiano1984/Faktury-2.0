@@ -42,8 +42,6 @@ public class Towar {
 
     public Towar(){}
 
-
-
     public String getNazwa() {
         return nazwa;
     }

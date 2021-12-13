@@ -31,7 +31,7 @@ public class StawkaVat {
 
 
     public double getStawkaVAT() {
-        return stawkaVAT;
+        return stawkaVAT/100;
     }
 
     public void setStawkaVAT(double stawkaVAT) {

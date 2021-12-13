@@ -56,7 +56,7 @@ public class Controller implements Initializable {
 
 
     public Controller() {
-        System.out.println("Cotroller utworzony");
+//        System.out.println("Cotroller utworzony");
     }
 
     public void noweOkno(ActionEvent e) throws IOException {
@@ -98,14 +98,12 @@ public class Controller implements Initializable {
     public void dodajFakture(ActionEvent e) throws IOException {
 
         DodawanieFakturyController controller2 = new DodawanieFakturyController();
-        controller2.noweOkno();
+        controller2.noweOkno(e);
     }
 
     public void dodajProdukt(ActionEvent e) throws IOException{
-
         DodawanieProduktuController dodawanieProduktuController = new DodawanieProduktuController();
         dodawanieProduktuController.noweOkno();
-
     }
 
     public void wyswietlTowar(ActionEvent e) throws IOException{
