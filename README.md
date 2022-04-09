@@ -1,2 +1,2 @@
 # Issue an invoice application
-This program is use to issue an invoice. Main tachnology is Java, application is based on MySQl database with JDBC connector and SQL queries. GUI was crated with JavaFx
+This program is used to issue an invoice. The main technology is Java, the application is based on MySQL database with JDBC connector and SQL queries. GUI was created with JavaFx.
